@@ -1,0 +1,4 @@
+<div>
+  <app-login [isStartExpanded]="isStartExpanded" *ngIf="user == null || user == {}"></app-login>
+  <app-account [isStartExpanded]="isStartExpanded" *ngIf="user != null && user != {}" [user]="user"></app-account>
+</div>

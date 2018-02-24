@@ -1,0 +1,15 @@
+<div fxLayoutAlign="center center" fxLayout="column" fxFlexFill>
+  <div>
+    <img [src]="imageSrc" *ngIf="!loading && !failed">
+    <mat-spinner *ngIf="loading"></mat-spinner>
+  </div>
+  <div class="actions">
+    <div fxLayoutAlign="center center" *ngIf="data.image">
+      <span *ngIf="data.image.text">{{data.image.text}}</span>
+      <span *ngIf="!data.image.text && data.image.src">{{data.image.src}}</span>
+    </div>
+    <div>
+      <button mat-button (click)="close()">Close</button>
+    </div>
+  </div>
+</div>

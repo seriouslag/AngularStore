@@ -1,0 +1,16 @@
+mat-toolbar {
+  background-color: transparent;
+}
+
+.title {
+  text-align: center;
+}
+
+.topLogin {
+  max-width: 250px;
+  z-index: 999;
+  overflow: visible;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}

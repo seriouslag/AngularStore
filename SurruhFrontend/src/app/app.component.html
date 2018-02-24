@@ -1,0 +1,30 @@
+<div class="app_wrapper" fxFlexFill fxLayout="column">
+  <mat-sidenav-container class="sidenav-container" fxFlex>
+    <mat-sidenav position="end" mode="over" class="sidenav" (closedStart)="closeSideNav()" fixedInViewport="true"
+                 [opened]="sideNav" #sidenav>
+      <app-login-container [user]="user" [isStartExpanded]="true"></app-login-container>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav-content">
+      <div class="header">
+        <app-title [user]="user"></app-title>
+        <app-header></app-header>
+      </div>
+
+      <div class="content_wrapper">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div class="spinner" *ngIf="resPending">
+            <mat-spinner></mat-spinner>
+          </div>
+          <button mat-button (click)="testAuth()">Test Auth</button>
+          <div *ngIf="res">{{res}}</div>
+        </div>
+
+        <div class="router_wrapper">
+
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+<div class="background"></div>

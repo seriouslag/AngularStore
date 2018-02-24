@@ -1,0 +1,17 @@
+<mat-accordion #account_component>
+  <mat-expansion-panel [expanded]="isStartExpanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <div *ngIf="user" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px" class="account_info">
+          <img src="{{user.image}}" *ngIf="user.image">
+          <div *ngIf="user.fname && !user.lname">{{user.fname}}</div>
+          <div *ngIf="user.fname && user.lname">{{user.fname + " " + user.lname}}</div>
+          <div *ngIf="!user.fname && !user.lname && user.email">{{user.email}}</div>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <button mat-button (click)="logout()">Logout</button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

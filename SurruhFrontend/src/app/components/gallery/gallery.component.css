@@ -1,0 +1,40 @@
+.defaultImg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.imgWrapper {
+  background-color: white;
+}
+
+.small {
+  /*
+  max-height: 250px;
+  */
+  max-width: 250px;
+}
+
+.med {
+  max-height: 425px;
+  max-width: 425px;
+}
+
+.large {
+  max-height: 540px;
+  max-width: 540px;
+}
+
+.smallC {
+  height: 300px;
+  width: 250px;
+}
+
+.medC {
+  height: 450px;
+  width: 425px;
+}
+
+.largeC {
+  height: 550px;
+  width: 540px;
+}

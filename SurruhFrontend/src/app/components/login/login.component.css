@@ -1,0 +1,18 @@
+:host(app-login) {
+
+}
+
+mat-expansion-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 90vh;
+}
+
+.required {
+  color: red;
+  font-size: .7em;
+}
+
+.errorHints {
+  color: red;
+}
