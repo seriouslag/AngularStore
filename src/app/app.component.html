@@ -12,7 +12,7 @@
 
       <div class="content_wrapper">
         <div fxLayout="row" fxLayoutAlign="center center">
-          <div class="spinner" *ngIf="resPending">
+          <div class="spinner" *ngIf="isLoading$ | async">
             <mat-spinner></mat-spinner>
           </div>
           <button mat-button (click)="testAuth()">Test Auth</button>

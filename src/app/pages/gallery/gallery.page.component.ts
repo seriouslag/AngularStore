@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Image} from '../../interfaces/image';
 import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
 
 import 'rxjs/add/operator/mergeMap';
 import {ObservableMedia} from '@angular/flex-layout';
 import {ApiService} from '../../services/api.service';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
   selector: 'app-gallery-page',
@@ -15,8 +15,10 @@ import {ApiService} from '../../services/api.service';
 export class GalleryPageComponent implements OnInit, OnDestroy {
 
   imageSubscription: Subscription;
-  gallery: Observable<Image[]>;
+  gallery: Image[];
   size = 0;
+
+  public isLoading$ = new BehaviorSubject<boolean>(false);
 
   private mediaSubscription: Subscription;
 
@@ -26,9 +28,11 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.gallery = this.firebaseService.gallery;
-    this.gallery = this.apiService.getImageData();
-
+    this.isLoading$.next(true);
+    this.gallerySubscription = this.apiService.getImageData().subscribe(gallery => {
+      this.isLoading$.next(false);
+      this.gallery = gallery;
+    });
     this.mediaSubscription = this.media.subscribe(() => {
       this.checkMobile();
     });

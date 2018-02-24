@@ -6,6 +6,7 @@ import {AuthService} from './services/auth.service';
 import {User} from './interfaces/user';
 import {ApiService} from './services/api.service';
 import {Value} from './interfaces/value';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,6 @@ import {Value} from './interfaces/value';
 
 export class AppComponent implements OnDestroy {
 
-
   private sideNavSubscription: Subscription;
   private userSubscription: Subscription;
   private dbUserSubscription: Subscription;
@@ -24,7 +24,7 @@ export class AppComponent implements OnDestroy {
   public user: User;
   private resDefault = 'You are not authorized.';
   public res = this.resDefault;
-  public resPending = false;
+  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private userToken: string;
 
@@ -72,21 +72,25 @@ export class AppComponent implements OnDestroy {
 
   public testAuth(): void {
     if (this.userToken && this.user) {
-      this.resPending = true;
+      this.isLoading$.next(true);
       this.apiService.getApiAuthCheck(this.userToken).take(1).subscribe(result => {
-        this.resPending = false;
+        this.isLoading$.next(false);
         if (result != null) {
           result = result as Value;
           this.res = result.name;
         } else {
           this.res = 'Server Error :(';
-          this.resPending = false;
+          this.isLoading$.next(false);
         }
       });
     } else {
-      this.res = this.resDefault;
-      this.resPending = false;
-      console.log('failed', this.userToken);
+      if (this.user == null) {
+        this.res = "Please try logging in to use this feature."
+      } else {
+        this.res = this.resDefault;
+      }
+
+      this.isLoading$.next(false);
     }
 
   }

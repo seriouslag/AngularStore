@@ -1,3 +1,9 @@
-<div fxLayoutGap="15px" fxLayout="column" fxLayoutAlign="center center">
-  <app-gallery *ngFor="let image of gallery | async" [size]="size" [image]="image"></app-gallery>
+<div fxLayoutAlign="center center">
+  <div *ngIf="!(isLoading$ | async) && gallery == null">>
+    The gallery is currently empty.
+  </div>
+  <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+  <div fxLayoutGap="15px" fxLayout="column">
+    <app-gallery *ngFor="let image of gallery" [size]="size" [image]="image"></app-gallery>
+  </div>
 </div>
