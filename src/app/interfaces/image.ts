@@ -1,12 +1,9 @@
-import {Tag} from './tag';
+import {BaseEntity} from "./baseEntity";
 
-export interface Image {
+export interface Image extends BaseEntity {
   id: number;
-  createdDate: string;
-  lastModified: string;
-  name: string;
-  extension: string;
-  tags: Tag[];
-  imageId: number;
-  isVisible: boolean;
+  height?: number;
+  width?: number;
+  contentType: string;
+  isVisible?: boolean;
 }
