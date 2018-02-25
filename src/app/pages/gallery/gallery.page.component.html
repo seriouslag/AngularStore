@@ -3,7 +3,7 @@
     The gallery is currently empty.
   </div>
   <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
-  <div fxLayoutGap="15px" fxLayout="column">
-    <app-gallery *ngFor="let image of gallery" [size]="size" [image]="image"></app-gallery>
+  <div fxLayout="row" fxLayoutWrap fxFlexAlign="space-around center" class="galleryWrapper">
+      <app-gallery *ngFor="let image of gallery" [size]="size" [image]="image"></app-gallery>
   </div>
 </div>

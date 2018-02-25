@@ -1,15 +1,17 @@
 <button mat-button (click)="open()">
   <mat-card>
-    <div fxLayout="column" fxFlexAlign="center center" class="imgWrapper" *ngIf="!loading && !failed">
+    <mat-card-header><span *ngIf="image.name">{{image.name}}</span></mat-card-header>
+    <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
+    <div fxLayout="column" fxFlexAlign="center center" class="imgWrapper" *ngIf="!(isLoading$ | async) && !(failed | async)">
       <div [ngClass]="{'smallC': size==0, 'medC': size==1, 'largeC': size==2}" fxLayoutAlign="center center">
         <img class="defaultImg" *ngIf="imageSrc" [src]="imageSrc"
              [ngClass]="{'small': size==0, 'med': size==1, 'large': size==2}">
       </div>
     </div>
-    <div *ngIf="!loading && failed">
+    <div *ngIf="!(isLoading$ | async) && (failed | async)">
       Failed to load Image
     </div>
-    <mat-card-actions><span *ngIf="image.name">{{image.name}}</span></mat-card-actions>
-    <mat-spinner *ngIf="loading"></mat-spinner>
+    <mat-card-actions fxFlexAlign="space-around center">
+    </mat-card-actions>
   </mat-card>
 </button>

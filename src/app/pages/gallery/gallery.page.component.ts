@@ -29,7 +29,7 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading$.next(true);
-    this.gallerySubscription = this.apiService.getImageData().subscribe(gallery => {
+    this.gallerySubscription = this.apiService.getImages().subscribe(gallery => {
       this.isLoading$.next(false);
       this.gallery = gallery;
     });

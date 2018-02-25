@@ -7,6 +7,7 @@ import {MatDialogRef} from '@angular/material';
 import 'rxjs/add/operator/take';
 import {ApiService} from '../../services/api.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
   selector: 'app-gallery',
@@ -22,8 +23,8 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   imageSrc: any;
 
-  loading = false;
-  failed = false;
+  isLoading$ = new BehaviorSubject<boolean>(false);
+  isFailed$ = new BehaviorSubject<boolean>(false);
 
   private dialog: MatDialogRef<ImageComponent>;
 
@@ -35,23 +36,29 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     for (const propName in changes) {
-      if (propName === 'image' && this.image) {
-        this.loading = true;
-        this.apiService.getImageFileByImageId(this.image.imageId).take(1).subscribe(src => {
-          if (src != null) {
-            const urlCreator = window.URL;
-            this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));
-            this.failed = false;
-          }
-          this.loading = false;
-        }, () => {
-          this.loading = false;
-          this.failed = true;
-        });
-      } else {
-        this.loading = false;
-        this.failed = true;
+      if (propName === 'image') {
+        this.getImageById();
       }
+    }
+  }
+
+  private getImageById(): void {
+    if (this.image) {
+      this.isLoading$.next(true);
+      this.apiService.getImageFileByImageId(this.image.id).take(1).subscribe(src => {
+        if (src != null) {
+          const urlCreator = window.URL;
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));
+          this.isFailed$.next(false)
+        }
+        this.isLoading$.next(false);
+      }, () => {
+        this.isLoading$.next(false);
+        this.isFailed$.next(true);
+      });
+    } else {
+      this.isLoading$.next(false);
+      this.isFailed$.next(true);
     }
   }
 
@@ -64,9 +71,16 @@ export class GalleryComponent implements OnInit, OnChanges {
       hasBackdrop: true,
       backdropClass: 'panel',
       data: {
+        apiService: this.apiService,
         image: this.image,
-        apiService: this.apiService
-      }
+        text: ""
+      } as ImageDialog
     });
   }
+}
+
+interface ImageDialog {
+  image: Image;
+  apiService: ApiService;
+  text: string;
 }

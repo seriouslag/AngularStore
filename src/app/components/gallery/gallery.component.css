@@ -11,30 +11,43 @@
   /*
   max-height: 250px;
   */
-  max-width: 250px;
+  max-width: 150px;
 }
 
+
 .med {
-  max-height: 425px;
-  max-width: 425px;
+  max-height: 200px;
+  max-width: 200px;
 }
 
 .large {
-  max-height: 540px;
-  max-width: 540px;
+  max-height: 250px;
+  max-width: 250px;
 }
 
 .smallC {
-  height: 300px;
-  width: 250px;
+  height: 140px;
+  width: 140px;
 }
 
 .medC {
-  height: 450px;
-  width: 425px;
+  height: 250px;
+  width: 250px;
 }
 
 .largeC {
-  height: 550px;
-  width: 540px;
+  height: 300px;
+  width: 300px;
+}
+
+.mat-button {
+  padding: 0;
+}
+
+.mat-card  {
+  padding: 0;
+}
+
+.mat-card-actions {
+  margin-bottom: 0 !important;
 }
