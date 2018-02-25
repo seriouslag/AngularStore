@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Image} from '../interfaces/image';
 import {Value} from '../interfaces/value';
@@ -10,11 +9,12 @@ import 'rxjs/add/operator/timeout';
 @Injectable()
 export class ApiService {
 
-  private imageUrl = '/api/images/';
-  private imageDataUrl = '/api/imageData';
+  private imageUrl = '/api/image/';
+  private imageFileUrl = '/api/image/file/';
   private userUrl = '/api/user';
+  private adminCheckUrl = '/api/user/admin';
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient) {
   }
 
   private static getAuthHeaders(token: string): HttpHeaders {
@@ -36,29 +36,29 @@ export class ApiService {
       .set('Access-Control-Allow-Origin', 'localhost:5000');
   }
 
+  getImages(): Observable<Image[]> {
+    return this.httpClient
+      .get<Image[]>(this.imageUrl, {headers: ApiService.getHeaders()});
+  }
+
   getImageById(id: number): Observable<Image> {
     return this.httpClient
       .get<Image>(this.imageUrl + id, {headers: ApiService.getHeaders()});
   }
 
-  getImageData(): Observable<Image[]> {
-    return this.httpClient
-      .get<Image[]>(this.imageDataUrl, {headers: ApiService.getHeaders()});
-  }
-
-  getImageDataById(id: number): Observable<Image> {
-    return this.httpClient
-      .get<Image>(this.imageDataUrl + id, {headers: ApiService.getHeaders()});
-  }
-
   getImageFileByImageId(imageID: number): Observable<Blob> {
     const options = {headers: ApiService.getImageHeaders(), responseType: 'blob' as 'blob'};
     return this.httpClient
-      .get(this.imageUrl + imageID, options);
+      .get(this.imageFileUrl + imageID, options);
   }
 
   getApiAuthCheck(token: string): Observable<Value> {
     return this.httpClient
       .get<Value>(this.userUrl, {headers: ApiService.getAuthHeaders(token)});
+  }
+
+  getIsAdminStatus(token: string): Observable<boolean> {
+    return this.httpClient
+      .get<boolean>(this.adminCheckUrl, {headers: ApiService.getAuthHeaders(token)})
   }
 }
