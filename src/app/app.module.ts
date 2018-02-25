@@ -36,18 +36,22 @@ import {LoginDialogComponent} from './components/dialogs/login/login.dialog.comp
 import {AccountDialogComponent} from './components/dialogs/account/account.dialog.component';
 import {StateService} from './services/state.service';
 import {LoginContainerComponent} from './components/login-container/login-container.component';
+import { AdminPageComponent } from './pages/admin/admin.page.component';
+import {AdminGuard} from "./guards/admin.guard";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HeaderComponent,
     Four04PageComponent,
-    TitleComponent,
     AboutPageComponent,
     GalleryPageComponent,
     ContactPageComponent,
+    AdminPageComponent,
+
+    HeaderComponent,
+    TitleComponent,
     GalleryComponent,
     GalleryOpenComponent,
     ImageComponent,
@@ -57,6 +61,7 @@ import {LoginContainerComponent} from './components/login-container/login-contai
     LoginDialogComponent,
     AccountDialogComponent,
     LoginContainerComponent
+
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,7 @@ import {LoginContainerComponent} from './components/login-container/login-contai
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
   ],
   exports: [FormsModule, ReactiveFormsModule],
-  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService],
+  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
   entryComponents: [ImageComponent, LoginDialogComponent, AccountDialogComponent],
   bootstrap: [AppComponent]
 })
