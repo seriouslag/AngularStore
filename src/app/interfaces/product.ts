@@ -1,9 +1,11 @@
 import {ProductOption} from "./productOption";
 import {BaseEntity} from "./baseEntity";
+import {Tag} from "./tag";
 
 export interface Product extends BaseEntity {
-  id: number;
+  id?: number;
   productDescription?: string;
 
-  productOptions: ProductOption[]
+  productOptions: ProductOption[];
+  tags: Tag[];
 }

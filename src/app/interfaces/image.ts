@@ -6,4 +6,5 @@ export interface Image extends BaseEntity {
   width?: number;
   contentType: string;
   isVisible?: boolean;
+  content: string
 }
