@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {AuthService} from "../../services/auth.service";
 import {Product} from "../../interfaces/product";
+import {ProductOption} from "../../interfaces/productOption";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-admin-page',
@@ -15,8 +17,23 @@ export class AdminPageComponent implements OnInit {
   ngOnInit() {
   }
 
-  async postProduct(product: Product): any {
-    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), product);
+  async postProduct(): Promise<object> {
+    const productTest = <Product>{
+      name: 'Beans',
+      tags: [],
+      productDescription: "The more you eat,",
+      productOptions: [<ProductOption>{
+        price: 10.20,
+        isVisible: true,
+        name: 'Black',
+        images: [],
+        productOptionDescription: "Tasty!"
+
+      }]
+    };
+    console.log('here');
+
+    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), productTest).toPromise();
   }
 
 }

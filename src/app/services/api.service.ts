@@ -75,7 +75,8 @@ export class ApiService {
       .get<boolean>(this.authCheckUrl, {headers: ApiService.getAuthHeaders(token)});
   }
 
-  postProduct(token: string, product: Product): Observable<any> {
+  postProduct(token: string, product: Product): Observable<Object> {
+    console.log('here2', token);
     return this.httpClient
       .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
   }
