@@ -5,21 +5,21 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
   selector: 'app-image',
-  templateUrl: './image.component.html',
-  styleUrls: ['./image.component.css']
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
 })
-export class ImageComponent implements OnInit, OnChanges {
+export class ProductComponent implements OnInit, OnChanges {
 
   imageSrc: any;
   isLoading$ = new BehaviorSubject<boolean>(false);
   isFailed$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialogRef: MatDialogRef<ImageComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
+  constructor(public dialogRef: MatDialogRef<ProductComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
-    if (this.data.image) {
-      this.getImageSrcByName();
+    if (this.data.product) {
+      this.getImage();
     }
   }
 
@@ -27,17 +27,17 @@ export class ImageComponent implements OnInit, OnChanges {
     // when the aboutUser changes change the profile pic
     for (const propName in changes) {
       if (propName === 'data') {
-        if (this.data.image) {
-          this.getImageSrcByName();
+        if (this.data.product) {
+          this.getImage();
         }
       }
     }
   }
 
-  private getImageSrcByName(): void {
-    if (this.data.image) {
+  private getImage(): void {
+    if (this.data.product) {
       this.isLoading$.next(true);
-      this.data.apiService.getImageFileByImageId(this.data.image.id).take(1).subscribe(src => {
+      this.data.apiService.getImageFileByImageId(this.data.product.productOptions[0].images[0].id).take(1).subscribe(src => {
         if (src != null) {
           const urlCreator = window.URL;
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));

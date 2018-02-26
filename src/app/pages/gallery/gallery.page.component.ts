@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Image} from '../../interfaces/image';
 import {Subscription} from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/mergeMap';
 import {ObservableMedia} from '@angular/flex-layout';
 import {ApiService} from '../../services/api.service';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Product} from "../../interfaces/product";
 
 @Component({
   selector: 'app-gallery-page',
@@ -15,7 +15,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 export class GalleryPageComponent implements OnInit, OnDestroy {
 
   imageSubscription: Subscription;
-  gallery: Image[];
+  gallery: Product[];
   size = 0;
 
   public isLoading$ = new BehaviorSubject<boolean>(false);
@@ -29,7 +29,7 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading$.next(true);
-    this.gallerySubscription = this.apiService.getImages().subscribe(gallery => {
+    this.gallerySubscription = this.apiService.getProducts().subscribe(gallery => {
       this.isLoading$.next(false);
       this.gallery = gallery;
     });

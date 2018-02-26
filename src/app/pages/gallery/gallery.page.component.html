@@ -4,6 +4,6 @@
   </div>
   <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
   <div fxLayout="row" fxLayoutWrap fxFlexAlign="space-around center" class="galleryWrapper">
-      <app-gallery *ngFor="let image of gallery" [size]="size" [image]="image"></app-gallery>
+      <app-gallery *ngFor="let product of gallery" [size]="size" [product]="product"></app-gallery>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <div fxLayoutAlign="center center" fxLayout="column" fxFlexFill>
   <div>
-    <div fxLayoutAlign="center center" *ngIf="data.image">
-      <span *ngIf="data.image.name">{{data.image.name}}</span>
+    <div fxLayoutAlign="center center" *ngIf="data.product">
+      <span *ngIf="data.product.name">{{data.product.name}}</span>
     </div>
     <img [src]="imageSrc" *ngIf="!(isLoading$ | async) && !(isFailed$ | async)">
     <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>

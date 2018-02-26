@@ -23,13 +23,14 @@ export class AppComponent implements OnDestroy {
   public sideNav: boolean;
   public user: User;
   private resDefault = 'You are not authorized.';
-  public res = this.resDefault;
+  public res: string;
   public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   private userToken: string;
 
   constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private stateService: StateService,
               private authService: AuthService, private apiService: ApiService) {
+    this.res = this.resDefault;
     this.sideNavSubscription = this.stateService.sideNav.asObservable().subscribe(sideNav => {
       this.sideNav = sideNav;
     });

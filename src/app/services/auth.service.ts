@@ -6,22 +6,39 @@ import {MatSnackBar} from '@angular/material';
 import {Subscription} from 'rxjs/Subscription';
 import {FirebaseService} from './firebase.service';
 import {User} from '../interfaces/user';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {ApiService} from "./api.service";
 
 @Injectable()
 export class AuthService {
+
+  public isAuth$ = new BehaviorSubject<boolean>(false);
+  public isAdmin$ = new BehaviorSubject<boolean>(false);
+  public user$ = new BehaviorSubject<firebase.User>(null);
 
   user: Observable<firebase.User>;
   dbUser: Observable<any> = Observable.of({});
 
   userSubscription: Subscription;
 
-  constructor(private auth: AngularFireAuth, private snackBar: MatSnackBar, private firebaseService: FirebaseService) {
+  constructor(private auth: AngularFireAuth, private snackBar: MatSnackBar, private firebaseService: FirebaseService, private apiService: ApiService) {
     this.user = auth.authState;
     auth.auth.setPersistence('local');
 
-    this.userSubscription = this.user.subscribe((user: firebase.User) => {
+    this.userSubscription = this.user.subscribe(async (user: firebase.User) => {
+      this.user$.next(user);
       if (user != null && user.uid != null) {
         this.dbUser = this.firebaseService.getFromDb('users/' + user.uid).valueChanges().take(1) as Observable<User>;
+
+        // Get Admin status from backend
+        await this.apiService.getIsAdminStatus(await user.getIdToken()).subscribe(status => {
+          this.isAdmin$.next(status);
+        });
+
+        // Get Auth status from backend
+        await this.apiService.getIsAuthStatus(await user.getIdToken()).subscribe(status => {
+          this.isAuth$.next(status);
+        });
       } else {
         this.dbUser = Observable.of(null);
       }
