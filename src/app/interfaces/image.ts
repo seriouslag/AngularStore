@@ -1,4 +1,4 @@
-import {BaseEntity} from "./baseEntity";
+import {BaseEntity} from './baseEntity';
 
 export interface Image extends BaseEntity {
   id: number;
@@ -6,5 +6,5 @@ export interface Image extends BaseEntity {
   width?: number;
   contentType: string;
   isVisible?: boolean;
-  content: string
+  content: string;
 }
