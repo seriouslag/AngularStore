@@ -6,8 +6,8 @@ import {MatDialogRef} from '@angular/material';
 import 'rxjs/add/operator/take';
 import {ApiService} from '../../services/api.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Product} from "../../interfaces/product";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Product} from '../../interfaces/product';
 
 @Component({
   selector: 'app-gallery',
@@ -44,12 +44,13 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   private getImage(): void {
     if (this.product) {
+      console.log('product: ', this.product);
       this.isLoading$.next(true);
       this.apiService.getImageFileByImageId(this.product.productOptions[0].images[0].id).take(1).subscribe(src => {
         if (src != null) {
           const urlCreator = window.URL;
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));
-          this.isFailed$.next(false)
+          this.isFailed$.next(false);
         }
         this.isLoading$.next(false);
       }, () => {
