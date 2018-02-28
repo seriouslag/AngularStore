@@ -3,7 +3,6 @@ import {ApiService} from '../../services/api.service';
 import {AuthService} from '../../services/auth.service';
 import {Product} from '../../interfaces/product';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ProductOption} from '../../interfaces/productOption';
 
 @Component({
   selector: 'app-admin-page',
@@ -12,26 +11,23 @@ import {ProductOption} from '../../interfaces/productOption';
 })
 export class AdminPageComponent implements OnInit {
 
-  postProductForm: FormGroup = new FormGroup({
+/*  postProductForm: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
     productDescription: new FormControl(null, [Validators.required, Validators.minLength(1)])
-  });
+  });*/
 
   postProductFormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-    productDescription: new FormControl(null, [Validators.required, Validators.minLength(1)])
+    productDescription: new FormControl(null, [])
   });
 
   postProductOptionFormGroup: FormGroup = new FormGroup({
     productOptions: new FormArray([])
   });
-  /*{
-    name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-    price: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-    productOptionDescription: new FormControl(null, [Validators.required, Validators.minLength(1)])
-  });*/
 
-  productOptions: ProductOption[];
+  openId = -1;
+
+
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
@@ -39,24 +35,29 @@ export class AdminPageComponent implements OnInit {
   }
 
   async postProduct(): Promise<object> {
-    const productTest = <Product>{
-      name: this.postProductForm.controls['name'].value,
-      productDescription: this.postProductForm.controls['productDescription'].value
+    const product = <Product>{
+      name: this.postProductFormGroup.controls['name'].value,
+      productDescription: this.postProductFormGroup.controls['productDescription'].value
     };
 
-    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), productTest).toPromise();
+    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), product).toPromise();
   }
 
-  get productOptionsArray(): FormArray {
-    return (<FormArray>this.postProductOptionFormGroup.controls['productOptions']);
-  }
+  get productOptionsFormArray(): FormArray {
+    return this.postProductOptionFormGroup.get('productOptions') as FormArray;
+  };
 
   addProductOption(): void {
-    this.productOptionsArray.push(new FormGroup({
+    this.productOptionsFormArray.push(new FormGroup({
       name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
       price: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-      productOptionDescription: new FormControl(null, [Validators.required, Validators.minLength(1)])
+      productOptionDescription: new FormControl(null, [])
     }));
+  }
+
+  opened(i: number) {
+    this.openId = i;
+    console.log(i);
   }
 
 }
