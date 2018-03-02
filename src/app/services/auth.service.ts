@@ -6,8 +6,8 @@ import {MatSnackBar} from '@angular/material';
 import {Subscription} from 'rxjs/Subscription';
 import {FirebaseService} from './firebase.service';
 import {User} from '../interfaces/user';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {ApiService} from "./api.service";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {ApiService} from './api.service';
 
 @Injectable()
 export class AuthService {

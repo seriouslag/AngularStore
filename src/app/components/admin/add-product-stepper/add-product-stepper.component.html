@@ -1,0 +1,76 @@
+<mat-vertical-stepper [linear]="true" #stepper="matVerticalStepper">
+  <mat-step [stepControl]="postProductFormGroup">
+    <form [formGroup]="postProductFormGroup" fxLayout="column">
+      <ng-template matStepLabel>Product Information: </ng-template>
+      <mat-input-container>
+        <input matInput placeholder="Product Name" type="text" formControlName="name" required autocomplete="name">
+        <mat-hint
+          *ngIf="postProductFormGroup.controls['name'].hasError('required') && postProductFormGroup.controls['name'].touched"
+          class="errorHints">A Product Name is required.
+        </mat-hint>
+        <mat-hint
+          *ngIf="postProductFormGroup.controls['name'].hasError('minlength') && postProductFormGroup.controls['name'].touched"
+          class="errorHints">Product Name must be longer than 2 characters.
+        </mat-hint>
+      </mat-input-container>
+      <mat-input-container>
+        <textarea matInput placeholder="Product Description" type="text" formControlName="productDescription" matTextareaAutosize matAutosizeMinRows="1"></textarea>
+      </mat-input-container>
+      <mat-action-row>
+        <button mat-button matStepperNext>Next</button>
+      </mat-action-row>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="postProductOptionFormGroup">
+    <ng-template matStepLabel>Product Options: </ng-template>
+    <form [formGroup]="postProductOptionFormGroup">
+      <div formArrayName="productOptions">
+        <mat-accordion [multi]="true">
+          <mat-expansion-panel *ngFor="let productOption of productOptionsFormArray.controls; let i=index" [formGroupName]="i" [expanded]="true" (closed)="checkToClose(i)">
+            <mat-expansion-panel-header>{{ productOption.get('name').value ? productOption.get('name').value : postProductFormGroup.controls['name'].value + ' ' + i }}</mat-expansion-panel-header>
+            <mat-input-container>
+              <input matInput placeholder="Product Option Name" value="{{postProductFormGroup.controls['name'].value + ' ' + i}}" type="text" formControlName="name" required autocomplete="name">
+              <mat-hint
+                *ngIf="productOption.get('name').hasError('required') && productOption.get('name').touched"
+                class="errorHints">A Product Option Name is required.
+              </mat-hint>
+              <mat-hint
+                *ngIf="productOption.get('name').hasError('minlength') && productOption.get('name').touched"
+                class="errorHints">Product Option Name must be longer than 2 characters.
+              </mat-hint>
+            </mat-input-container>
+            <mat-input-container>
+              <textarea matInput placeholder="Product Option Description" type="text" matTextareaAutosize matAutosizeMinRows="1"
+                        formControlName="productOptionDescription"></textarea>
+            </mat-input-container>
+            <mat-input-container>
+              <input matInput placeholder="Price" type="number" formControlName="price" required>
+              <mat-hint
+                *ngIf="productOption.get('price').hasError('required') && productOption.get('price').touched"
+                class="errorHints">A Product Option Price is required.
+              </mat-hint>
+            </mat-input-container>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </form>
+
+    <button mat-button (click)="addProductOption()" fxLayoutAlign="center center">
+      <span>Add a Product Option <mat-icon>add_circle_outline</mat-icon></span>
+    </button>
+    <mat-action-row>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext (click)="openErrorPanels()">Next</button>
+    </mat-action-row>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Submit</ng-template>
+
+    <mat-action-row>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button type="button">Submit</button>
+
+    </mat-action-row>
+  </mat-step>
+</mat-vertical-stepper>

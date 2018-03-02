@@ -86,7 +86,7 @@ export class AppComponent implements OnDestroy {
       });
     } else {
       if (this.user == null) {
-        this.res = "Please try logging in to use this feature."
+        this.res = 'Please try logging in to use this feature.';
       } else {
         this.res = this.resDefault;
       }

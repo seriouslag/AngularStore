@@ -12,6 +12,7 @@
     </mat-expansion-panel-header>
     <div fxLayout="column" fxLayoutAlign="start start">
       <button mat-button (click)="logout()">Logout</button>
+      <button *ngIf="isAdmin$ | async" mat-button routerLink="admin">Admin Console</button>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

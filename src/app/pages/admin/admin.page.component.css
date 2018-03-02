@@ -1,0 +1,10 @@
+mat-card {
+  min-width: 425px;
+}
+.mat-expansion-panel-spacing {
+  margin: 0;
+}
+
+mat-expansion-panel {
+  margin: 0;
+}

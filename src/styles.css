@@ -18,3 +18,12 @@ body {
   margin: 0;
   padding: 0;
 }
+
+
+/*
+  To hide the error underlines for inputs in expansion panels
+  from showing through to other elements in the accordion.
+ */
+.mat-expansion-panel-content {
+  overflow: hidden !important;
+}

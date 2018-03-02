@@ -36,7 +36,10 @@ import {AccountDialogComponent} from './components/dialogs/account/account.dialo
 import {StateService} from './services/state.service';
 import {LoginContainerComponent} from './components/login-container/login-container.component';
 import {AdminPageComponent} from './pages/admin/admin.page.component';
-import {AdminGuard} from "./guards/admin.guard";
+import {AdminGuard} from './guards/admin.guard';
+import { AddProductStepperComponent } from './components/admin/add-product-stepper/add-product-stepper.component';
+import { AddProductProductListComponent } from './components/admin/add-product-product-list/add-product-product-list.component';
+import { EditProductDialogComponent } from './components/admin/dialogs/edit-product/edit-product-dialog.component';
 
 
 @NgModule({
@@ -60,6 +63,9 @@ import {AdminGuard} from "./guards/admin.guard";
     LoginDialogComponent,
     AccountDialogComponent,
     LoginContainerComponent,
+    AddProductStepperComponent,
+    AddProductProductListComponent,
+    EditProductDialogComponent,
 
   ],
   imports: [
@@ -78,7 +84,7 @@ import {AdminGuard} from "./guards/admin.guard";
   ],
   exports: [FormsModule, ReactiveFormsModule],
   providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
-  entryComponents: [ProductComponent, LoginDialogComponent, AccountDialogComponent],
+  entryComponents: [ProductComponent, LoginDialogComponent, AccountDialogComponent, EditProductDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

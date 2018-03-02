@@ -20,7 +20,10 @@ import {
   MatStepperModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule, MatAutocompleteModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -35,7 +38,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatIconModule, MatInputModule, MatMenuModule, MatOptionModule, MatProgressBarModule, MatProgressSpinnerModule,
     MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
     MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatAutocompleteModule
   ],
   exports: [
     FlexLayoutModule,
@@ -43,7 +46,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatIconModule, MatInputModule, MatMenuModule, MatOptionModule, MatProgressBarModule, MatProgressSpinnerModule,
     MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
     MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatAutocompleteModule
   ]
 })
 

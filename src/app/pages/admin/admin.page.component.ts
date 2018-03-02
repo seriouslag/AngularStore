@@ -1,63 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ApiService} from '../../services/api.service';
-import {AuthService} from '../../services/auth.service';
 import {Product} from '../../interfaces/product';
-import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+
+import 'rxjs/add/operator/take';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import {map} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-admin-page',
   templateUrl: './admin.page.component.html',
   styleUrls: ['./admin.page.component.css']
 })
-export class AdminPageComponent implements OnInit {
-
-/*  postProductForm: FormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-    productDescription: new FormControl(null, [Validators.required, Validators.minLength(1)])
-  });*/
-
-  postProductFormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-    productDescription: new FormControl(null, [])
-  });
-
-  postProductOptionFormGroup: FormGroup = new FormGroup({
-    productOptions: new FormArray([])
-  });
-
-  openId = -1;
+export class AdminPageComponent implements OnInit, AfterViewInit {
+  productSearchForm = new FormControl(null);
+  products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(null);
+  listProducts: Observable<Product[]>;
+  filteredProducts: Observable<Product[]>;
 
 
+  constructor(private apiService: ApiService) {
+    this.filteredProducts = this.productSearchForm.valueChanges
+      .pipe(
+        map(term => this.filterProducts(term))
+      );
 
-  constructor(private apiService: ApiService, private authService: AuthService) { }
+    this.listProducts = this.products;
+    this.apiService.getProducts().subscribe(p => {
+      this.products.next(p);
+    });
+  }
 
   ngOnInit() {
   }
 
-  async postProduct(): Promise<object> {
-    const product = <Product>{
-      name: this.postProductFormGroup.controls['name'].value,
-      productDescription: this.postProductFormGroup.controls['productDescription'].value
-    };
-
-    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), product).toPromise();
+  ngAfterViewInit() {
   }
 
-  get productOptionsFormArray(): FormArray {
-    return this.postProductOptionFormGroup.get('productOptions') as FormArray;
-  };
-
-  addProductOption(): void {
-    this.productOptionsFormArray.push(new FormGroup({
-      name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-      price: new FormControl(null, [Validators.required, Validators.minLength(1)]),
-      productOptionDescription: new FormControl(null, [])
-    }));
+  search() {
+    this.filteredProducts = Observable.of(this.filterProducts(this.productSearchForm.value));
+    this.listProducts = this.filteredProducts;
   }
 
-  opened(i: number) {
-    this.openId = i;
-    console.log(i);
+  reset() {
+    this.filteredProducts = this.products;
+    this.listProducts = this.products;
+    this.productSearchForm.patchValue('');
   }
 
+  filterProducts(term: string): Product[] {
+    return this.products.getValue().filter(product =>
+      product.name.toLowerCase().indexOf(term.toLowerCase()) >= 0).sort();
+  }
+
+
+  // Can remove
+  // Also remove from html
+  selectRow(row) {
+    console.log(row);
+  }
 }

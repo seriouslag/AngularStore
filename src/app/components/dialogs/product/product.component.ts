@@ -1,7 +1,7 @@
 import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-image',
@@ -41,7 +41,6 @@ export class ProductComponent implements OnInit, OnChanges {
         if (src != null) {
           const urlCreator = window.URL;
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));
-          this.isFailed$.next(false)
         }
         this.isLoading$.next(false);
       }, () => {

@@ -5,7 +5,7 @@ import {Image} from '../interfaces/image';
 import {Value} from '../interfaces/value';
 
 import 'rxjs/add/operator/timeout';
-import {Product} from "../interfaces/product";
+import {Product} from '../interfaces/product';
 
 @Injectable()
 export class ApiService {
@@ -41,7 +41,7 @@ export class ApiService {
 
   getProducts(token?: string): Observable<Product[]> {
     return this.httpClient
-      .get<Product[]>(this.productUrl, { headers: ((token != null) ? ApiService.getAuthHeaders(token) : ApiService.getHeaders()) })
+      .get<Product[]>(this.productUrl, { headers: ((token != null) ? ApiService.getAuthHeaders(token) : ApiService.getHeaders()) });
   }
 
   getImages(): Observable<Image[]> {
