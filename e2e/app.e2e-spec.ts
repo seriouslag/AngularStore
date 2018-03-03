@@ -1,6 +1,6 @@
 import {AppPage} from './app.po';
 
-describe('surruh-frontend App', () => {
+describe('angular-store App', () => {
   let page: AppPage;
 
   beforeEach(() => {

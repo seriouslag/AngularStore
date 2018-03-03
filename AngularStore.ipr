@@ -34,7 +34,7 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SurruhFrontend.iml" filepath="$PROJECT_DIR$/SurruhFrontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AngularStore.iml" filepath="$PROJECT_DIR$/AngularStore.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager">
