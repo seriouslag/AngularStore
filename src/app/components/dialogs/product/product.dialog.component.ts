@@ -1,25 +1,29 @@
-import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
-  selector: 'app-image',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-product-dialog',
+  templateUrl: './product.dialog.component.html',
+  styleUrls: ['./product.dialog.component.css']
 })
-export class ProductComponent implements OnInit, OnChanges {
+export class ProductDialogComponent implements OnInit, OnChanges {
 
+  @Input()
   imageSrc: any;
   isLoading$ = new BehaviorSubject<boolean>(false);
   isFailed$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialogRef: MatDialogRef<ProductComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
+  constructor(public dialogRef: MatDialogRef<ProductDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
     if (this.data.product) {
-      this.getImage();
+      //this.getImage();
+    }
+    if(this.data) {
+      this.setImage(this.data.imageSrc);
     }
   }
 
@@ -28,9 +32,21 @@ export class ProductComponent implements OnInit, OnChanges {
     for (const propName in changes) {
       if (propName === 'data') {
         if (this.data.product) {
-          this.getImage();
+          //this.getImage();
+        }
+        if(this.data) {
+          this.setImage(this.data.imageSrc);
         }
       }
+    }
+  }
+
+  private setImage(imageSrc: string): void {
+    if(imageSrc != null) {
+      this.isFailed$.next(false);
+      this.imageSrc = imageSrc;
+    } else {
+      this.isFailed$.next(true);
     }
   }
 

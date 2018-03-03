@@ -13,7 +13,7 @@ import {MaterialModule} from './modules/app.material.module';
 import {AccountComponent} from './components/account/account.component';
 import {LoginComponent} from './components/login/login.component';
 import {LoginFormComponent} from './components/forms/login-form/login-form.component';
-import {ProductComponent} from './components/dialogs/product/product.component';
+import {ProductDialogComponent} from './components/dialogs/product/product.dialog.component';
 import {GalleryOpenComponent} from './components/gallery-open/gallery-open.component';
 import {GalleryComponent} from './components/gallery/gallery.component';
 import {TitleComponent} from './components/title/title.component';
@@ -56,7 +56,7 @@ import { EditProductDialogComponent } from './components/admin/dialogs/edit-prod
     TitleComponent,
     GalleryComponent,
     GalleryOpenComponent,
-    ProductComponent,
+    ProductDialogComponent,
     LoginFormComponent,
     LoginComponent,
     AccountComponent,
@@ -84,7 +84,7 @@ import { EditProductDialogComponent } from './components/admin/dialogs/edit-prod
   ],
   exports: [FormsModule, ReactiveFormsModule],
   providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
-  entryComponents: [ProductComponent, LoginDialogComponent, AccountDialogComponent, EditProductDialogComponent],
+  entryComponents: [ProductDialogComponent, LoginDialogComponent, AccountDialogComponent, EditProductDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

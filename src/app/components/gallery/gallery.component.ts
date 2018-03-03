@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DialogService} from '../../services/dialog.service';
-import {ProductComponent} from '../dialogs/product/product.component';
+import {ProductDialogComponent} from '../dialogs/product/product.dialog.component';
 import {MatDialogRef} from '@angular/material';
 
 import 'rxjs/add/operator/take';
@@ -26,7 +26,8 @@ export class GalleryComponent implements OnInit, OnChanges {
   isLoading$ = new BehaviorSubject<boolean>(false);
   isFailed$ = new BehaviorSubject<boolean>(false);
 
-  private dialog: MatDialogRef<ProductComponent>;
+  private dialog: MatDialogRef<ProductDialogComponent>;
+  private urlCreator = window.URL;
 
   constructor(private dialogService: DialogService, private apiService: ApiService, private sanitizer: DomSanitizer) {
   }
@@ -44,19 +45,24 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   private getImage(): void {
     if (this.product) {
-      console.log('product: ', this.product);
       this.isLoading$.next(true);
-      this.apiService.getImageFileByImageId(this.product.productOptions[0].images[0].id).take(1).subscribe(src => {
-        if (src != null) {
-          const urlCreator = window.URL;
-          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));
-          this.isFailed$.next(false);
-        }
-        this.isLoading$.next(false);
-      }, () => {
+      if(this.product.productOptions[0] && this.product.productOptions[0].images[0]) {
+        this.apiService.getImageFileByImageId(this.product.productOptions[0].images[0].id).take(1).subscribe(src => {
+          if (src != null) {
+            this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(src));
+            this.isFailed$.next(false);
+          } else {
+            this.isFailed$.next(true);
+          }
+          this.isLoading$.next(false);
+        }, () => {
+          this.isLoading$.next(false);
+          this.isFailed$.next(true);
+        });
+      } else {
         this.isLoading$.next(false);
         this.isFailed$.next(true);
-      });
+      }
     } else {
       this.isLoading$.next(false);
       this.isFailed$.next(true);
@@ -65,7 +71,7 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   open() {
     this.dialogService.closeDialogs();
-    this.dialog = this.dialogService.openDialog(ProductComponent, {
+    this.dialog = this.dialogService.openDialog(ProductDialogComponent, {
       height: '100%',
       width: '100%',
       panelClass: 'panel',
@@ -73,6 +79,7 @@ export class GalleryComponent implements OnInit, OnChanges {
       backdropClass: 'panel',
       data: {
         apiService: this.apiService,
+        imageSrc: this.imageSrc,
         product: this.product
       } as ImageDialog
     });

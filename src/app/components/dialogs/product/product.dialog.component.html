@@ -1,0 +1,20 @@
+<div fxLayoutAlign="center center" fxLayout="column" fxFlexFill>
+  <div>
+    <div fxLayoutAlign="center center" *ngIf="data.product">
+      <span *ngIf="data.product.name">{{data.product.name}}</span>
+    </div>
+    <div class="contentContainer" fxLayout="column">
+      <img [src]="imageSrc" *ngIf="!(isLoading$ | async) && !(isFailed$ | async)">
+      <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
+      <div *ngIf="!(isLoading$ | async) && (isFailed$ | async)" fxLayout="column" fxFlexAlign="center center">
+        <div>Failed to load Image</div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+
+    <div>
+      <button mat-button (click)="close()">Close</button>
+    </div>
+  </div>
+</div>
