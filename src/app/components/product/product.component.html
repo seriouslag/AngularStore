@@ -1,0 +1,27 @@
+<mat-card fxLayout="row">
+  <app-gallery [productOption]="product?.productOptions[0]"></app-gallery>
+
+  <div fxLayout="column" class="productInformation">
+    <div>{{product?.name}}</div>
+    <div class="description">{{product.productDescription}}</div>
+
+    <div fxLayout="column" *ngIf="product.productOptions.length > 1">
+      <div>Product Options:</div>
+      <div *ngFor="let productOption of product.productOptions"  fxLayout="row">
+        <div>
+          <button mat-button>
+            {{productOption.name}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="product.productOptions?.length > 1; else single">
+      Options starting at: <b>{{lowestPrice}}</b>
+    </div>
+    <ng-template #single>Price <b>{{lowestPrice}}</b></ng-template>
+  </div>
+
+</mat-card>

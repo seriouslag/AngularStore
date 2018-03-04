@@ -1,13 +1,13 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DialogService} from '../../services/dialog.service';
-import {ProductDialogComponent} from '../dialogs/product/product.dialog.component';
+import {ProductOptionDialogComponent} from '../dialogs/product-option/product-option.dialog.component';
 import {MatDialogRef} from '@angular/material';
 
 import 'rxjs/add/operator/take';
 import {ApiService} from '../../services/api.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Product} from '../../interfaces/product';
+import {ProductOption} from '../../interfaces/productOption';
 
 @Component({
   selector: 'app-gallery',
@@ -16,7 +16,7 @@ import {Product} from '../../interfaces/product';
 })
 export class GalleryComponent implements OnInit, OnChanges {
 
-  @Input() product: Product;
+  @Input() productOption: ProductOption;
   @Input() height = 100;
   @Input() width = 100;
   @Input() size = 0;
@@ -26,7 +26,7 @@ export class GalleryComponent implements OnInit, OnChanges {
   isLoading$ = new BehaviorSubject<boolean>(false);
   isFailed$ = new BehaviorSubject<boolean>(false);
 
-  private dialog: MatDialogRef<ProductDialogComponent>;
+  private dialog: MatDialogRef<ProductOptionDialogComponent>;
   private urlCreator = window.URL;
 
   constructor(private dialogService: DialogService, private apiService: ApiService, private sanitizer: DomSanitizer) {
@@ -37,17 +37,17 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     for (const propName in changes) {
-      if (propName === 'product') {
+      if (propName === 'productOption') {
         this.getImage();
       }
     }
   }
 
   private getImage(): void {
-    if (this.product) {
+    if (this.productOption) {
       this.isLoading$.next(true);
-      if(this.product.productOptions[0] && this.product.productOptions[0].images[0]) {
-        this.apiService.getImageFileByImageId(this.product.productOptions[0].images[0].id).take(1).subscribe(src => {
+      if (this.productOption && this.productOption.images[0]) {
+        this.apiService.getImageFileByImageId(this.productOption.images[0].id).take(1).subscribe(src => {
           if (src != null) {
             this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(src));
             this.isFailed$.next(false);
@@ -71,7 +71,7 @@ export class GalleryComponent implements OnInit, OnChanges {
 
   open() {
     this.dialogService.closeDialogs();
-    this.dialog = this.dialogService.openDialog(ProductDialogComponent, {
+    this.dialog = this.dialogService.openDialog(ProductOptionDialogComponent, {
       height: '100%',
       width: '100%',
       panelClass: 'panel',
@@ -80,13 +80,8 @@ export class GalleryComponent implements OnInit, OnChanges {
       data: {
         apiService: this.apiService,
         imageSrc: this.imageSrc,
-        product: this.product
-      } as ImageDialog
+        productOption: this.productOption
+      }
     });
   }
-}
-
-interface ImageDialog {
-  product: Product;
-  apiService: ApiService;
 }

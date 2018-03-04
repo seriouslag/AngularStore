@@ -6,6 +6,7 @@ import {GalleryPageComponent} from './pages/gallery/gallery.page.component';
 import {ContactPageComponent} from './pages/contact/contact.page.component';
 import {AdminPageComponent} from './pages/admin/admin.page.component';
 import {AdminGuard} from './guards/admin.guard';
+import {ProductPageComponent} from './pages/product.page/product.page.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomePageComponent},
@@ -13,6 +14,7 @@ export const routes: Routes = [
   {path: 'gallery', component: GalleryPageComponent},
   {path: 'contact', component: ContactPageComponent},
   {path: 'admin', component: AdminPageComponent, canActivate: [AdminGuard]},
+  {path: 'product/:productId', component: ProductPageComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: Four04PageComponent}
 ];

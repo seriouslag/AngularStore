@@ -1,0 +1,12 @@
+mat-card {
+  height: 250px;
+  width: 500px;
+}
+
+.productInformation {
+  padding: 15px;
+}
+
+.description {
+  max-width: 200px;
+}

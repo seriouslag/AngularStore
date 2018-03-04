@@ -4,8 +4,8 @@ import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/mergeMap';
 import {ObservableMedia} from '@angular/flex-layout';
 import {ApiService} from '../../services/api.service';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Product} from "../../interfaces/product";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Product} from '../../interfaces/product';
 
 @Component({
   selector: 'app-gallery-page',

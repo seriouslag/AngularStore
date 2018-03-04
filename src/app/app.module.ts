@@ -13,7 +13,7 @@ import {MaterialModule} from './modules/app.material.module';
 import {AccountComponent} from './components/account/account.component';
 import {LoginComponent} from './components/login/login.component';
 import {LoginFormComponent} from './components/forms/login-form/login-form.component';
-import {ProductDialogComponent} from './components/dialogs/product/product.dialog.component';
+import {ProductOptionDialogComponent} from './components/dialogs/product-option/product-option.dialog.component';
 import {GalleryOpenComponent} from './components/gallery-open/gallery-open.component';
 import {GalleryComponent} from './components/gallery/gallery.component';
 import {TitleComponent} from './components/title/title.component';
@@ -39,7 +39,9 @@ import {AdminPageComponent} from './pages/admin/admin.page.component';
 import {AdminGuard} from './guards/admin.guard';
 import { AddProductStepperComponent } from './components/admin/add-product-stepper/add-product-stepper.component';
 import { AddProductProductListComponent } from './components/admin/add-product-product-list/add-product-product-list.component';
-import { EditProductDialogComponent } from './components/admin/dialogs/edit-product/edit-product-dialog.component';
+import { EditProductOptionDialogComponent } from './components/admin/dialogs/edit-product/edit-product-dialog.component';
+import { ProductComponent } from './components/product/product.component';
+import { ProductPageComponent } from './pages/product.page/product.page.component';
 
 
 @NgModule({
@@ -56,7 +58,7 @@ import { EditProductDialogComponent } from './components/admin/dialogs/edit-prod
     TitleComponent,
     GalleryComponent,
     GalleryOpenComponent,
-    ProductDialogComponent,
+    ProductOptionDialogComponent,
     LoginFormComponent,
     LoginComponent,
     AccountComponent,
@@ -65,7 +67,9 @@ import { EditProductDialogComponent } from './components/admin/dialogs/edit-prod
     LoginContainerComponent,
     AddProductStepperComponent,
     AddProductProductListComponent,
-    EditProductDialogComponent,
+    EditProductOptionDialogComponent,
+    ProductComponent,
+    ProductPageComponent,
 
   ],
   imports: [
@@ -84,7 +88,7 @@ import { EditProductDialogComponent } from './components/admin/dialogs/edit-prod
   ],
   exports: [FormsModule, ReactiveFormsModule],
   providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
-  entryComponents: [ProductDialogComponent, LoginDialogComponent, AccountDialogComponent, EditProductDialogComponent],
+  entryComponents: [ProductOptionDialogComponent, LoginDialogComponent, AccountDialogComponent, EditProductOptionDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

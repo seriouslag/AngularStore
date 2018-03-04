@@ -1,0 +1,3 @@
+<app-product *ngIf="product" [product]="product"></app-product>
+<div *ngIf="isFailed$.getValue()">This product either failed to load or does not exist.</div>
+<mat-spinner *ngIf="isLoading$.getValue()"></mat-spinner>

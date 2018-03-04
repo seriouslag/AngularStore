@@ -1,6 +1,5 @@
 <button mat-button (click)="open()">
   <mat-card>
-    <mat-card-header><span *ngIf="product.name">{{product.name}}</span></mat-card-header>
     <mat-spinner *ngIf="(isLoading$ | async)"></mat-spinner>
     <div fxLayout="column" fxFlexAlign="center center" class="imgWrapper" *ngIf="!(isLoading$ | async) && !(failed | async)">
       <div [ngClass]="{'smallC': size==0, 'medC': size==1, 'largeC': size==2}" fxLayoutAlign="center center">

@@ -44,6 +44,11 @@ export class ApiService {
       .get<Product[]>(this.productUrl, { headers: ((token != null) ? ApiService.getAuthHeaders(token) : ApiService.getHeaders()) });
   }
 
+  getProductById(id: number): Observable<Product> {
+    return this.httpClient
+      .get<Product>(this.productUrl + '/' + id, {headers: ApiService.getHeaders()});
+  }
+
   getImages(): Observable<Image[]> {
     return this.httpClient
       .get<Image[]>(this.imageUrl, {headers: ApiService.getHeaders()});
