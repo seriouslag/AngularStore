@@ -5,24 +5,24 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-product-dialog',
-  templateUrl: './product.dialog.component.html',
-  styleUrls: ['./product.dialog.component.css']
+  templateUrl: './product-option.dialog.component.html',
+  styleUrls: ['./product-optioon.dialog.component.css']
 })
-export class ProductDialogComponent implements OnInit, OnChanges {
+export class ProductOptionDialogComponent implements OnInit, OnChanges {
 
   @Input()
   imageSrc: any;
   isLoading$ = new BehaviorSubject<boolean>(false);
   isFailed$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialogRef: MatDialogRef<ProductDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
+  constructor(public dialogRef: MatDialogRef<ProductOptionDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
-    if (this.data.product) {
-      //this.getImage();
+    if (this.data.productOption) {
+      // this.getImage();
     }
-    if(this.data) {
+    if (this.data) {
       this.setImage(this.data.imageSrc);
     }
   }
@@ -31,10 +31,10 @@ export class ProductDialogComponent implements OnInit, OnChanges {
     // when the aboutUser changes change the profile pic
     for (const propName in changes) {
       if (propName === 'data') {
-        if (this.data.product) {
-          //this.getImage();
+        if (this.data.productOption) {
+          // this.getImage();
         }
-        if(this.data) {
+        if (this.data) {
           this.setImage(this.data.imageSrc);
         }
       }
@@ -42,7 +42,7 @@ export class ProductDialogComponent implements OnInit, OnChanges {
   }
 
   private setImage(imageSrc: string): void {
-    if(imageSrc != null) {
+    if (imageSrc != null) {
       this.isFailed$.next(false);
       this.imageSrc = imageSrc;
     } else {
@@ -51,9 +51,9 @@ export class ProductDialogComponent implements OnInit, OnChanges {
   }
 
   private getImage(): void {
-    if (this.data.product) {
+    if (this.data.productOption) {
       this.isLoading$.next(true);
-      this.data.apiService.getImageFileByImageId(this.data.product.productOptions[0].images[0].id).take(1).subscribe(src => {
+      this.data.apiService.getImageFileByImageId(this.data.productOption.images[0].id).take(1).subscribe(src => {
         if (src != null) {
           const urlCreator = window.URL;
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(src));

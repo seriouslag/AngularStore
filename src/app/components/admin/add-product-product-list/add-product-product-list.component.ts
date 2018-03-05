@@ -3,7 +3,7 @@ import {Product} from '../../../interfaces/product';
 import {Observable} from 'rxjs/Observable';
 import {DialogService} from '../../../services/dialog.service';
 import {MatDialogRef} from '@angular/material';
-import {EditProductDialogComponent} from '../dialogs/edit-product/edit-product-dialog.component';
+import {EditProductOptionDialogComponent} from '../dialogs/edit-product/edit-product-dialog.component';
 
 @Component({
   selector: 'app-add-product-product-list',
@@ -19,7 +19,7 @@ export class AddProductProductListComponent implements OnInit {
   @Input()
   products: Observable<Product[]>;
 
-  private editProductDialog: MatDialogRef<EditProductDialogComponent>;
+  private editProductDialog: MatDialogRef<EditProductOptionDialogComponent>;
 
   constructor(private dialogService: DialogService) { }
 
@@ -28,7 +28,7 @@ export class AddProductProductListComponent implements OnInit {
 
   open(product: Product) {
     this.dialogService.closeDialogs();
-    this.editProductDialog = this.dialogService.openDialog(EditProductDialogComponent, {
+    this.editProductDialog = this.dialogService.openDialog(EditProductOptionDialogComponent, {
       data: {
         product: product
       }

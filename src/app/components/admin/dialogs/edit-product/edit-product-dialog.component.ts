@@ -8,7 +8,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   templateUrl: './edit-product-dialog.component.html',
   styleUrls: ['./edit-product-dialog.component.css']
 })
-export class EditProductDialogComponent implements OnInit, OnChanges {
+export class EditProductOptionDialogComponent implements OnInit, OnChanges {
 
   product: Product;
 
@@ -21,7 +21,7 @@ export class EditProductDialogComponent implements OnInit, OnChanges {
     isVisible: new FormControl(null, []),
   });
 
-  constructor(public dialogRef: MatDialogRef<EditProductDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<EditProductOptionDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     if (this.data.product) {
