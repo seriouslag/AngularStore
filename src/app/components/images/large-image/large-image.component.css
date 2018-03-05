@@ -1,0 +1,40 @@
+.img-container {
+
+}
+
+.defaultImg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.small {
+  /*
+  max-height: 250px;
+  */
+  max-width: 150px;
+}
+
+
+.med {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.large {
+  max-height: 200px;
+}
+
+.smallC {
+  height: 140px;
+  width: 140px;
+}
+
+.medC {
+  height: 250px;
+  width: 250px;
+}
+
+.largeC {
+  height: 300px;
+  width: 300px;
+}

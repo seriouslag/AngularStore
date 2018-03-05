@@ -1,28 +1,27 @@
-<mat-card fxLayout="row">
+<mat-card fxLayout="row" fxLayoutAlign="space-between stretch">
   <!--<app-gallery [productOption]="product?.productOptions[0]"></app-gallery>-->
-  <app-large-image [imageSrc]="imageSrc"></app-large-image>
+  <app-large-image [size]="size" [imageSrc]="imageSrc"></app-large-image>
 
   <div fxLayout="column" class="productInformation">
     <div>{{product?.name}}</div>
     <div class="description">{{product.productDescription}}</div>
 
-    <div fxLayout="column" *ngIf="product.productOptions.length > 1">
-      <div>Product Options:</div>
-      <div *ngFor="let productOption of product.productOptions"  fxLayout="row">
-        <div>
-          <button mat-button>
-            {{productOption.name}}
-          </button>
-        </div>
-      </div>
-    </div>
+
   </div>
 
-  <div>
+  <div fxLayout="column" fxLayoutAlign="space-between stretch">
     <div *ngIf="product.productOptions?.length > 1; else single">
       Options starting at: <b>{{lowestPrice}}</b>
     </div>
-    <ng-template #single>Price <b>{{lowestPrice}}</b></ng-template>
+    <ng-template #single><div>Price <b>{{lowestPrice}}</b></div></ng-template>
+    <div fxLayout="column" *ngIf="product.productOptions.length > 1">
+      <div>Product Options:</div>
+      <div *ngFor="let productOption of product.productOptions"  fxLayout="row">
+        <button mat-button>
+          {{productOption.name}}
+        </button>
+      </div>
+    </div>
   </div>
 
 </mat-card>

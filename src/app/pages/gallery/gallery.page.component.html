@@ -5,7 +5,7 @@
   <mat-spinner *ngIf="(isLoading$ | async) && !(isFailed$ | async)"></mat-spinner>
   <div class="items-container" fxLayout="row" fxLayoutAlign="center start" fxLayoutWrap>
       <!--<app-gallery *ngFor="let product of gallery" [size]="size" [product]="product"></app-gallery>-->
-      <app-product class="item"  *ngFor="let product of gallery" [product]="product"></app-product>
+      <app-product class="item"  *ngFor="let product of gallery" [size]="size" [product]="product"></app-product>
   </div>
   <div *ngIf="(isFailed$ | async) && gallery.length === 0">
     Failed to load the gallery.

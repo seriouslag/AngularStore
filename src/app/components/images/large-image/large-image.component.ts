@@ -10,8 +10,8 @@ export class LargeImageComponent implements OnInit {
   @Input()
   imageSrc: string;
 
-  @ViewChild('player')
-  private img: ElementRef;
+  @Input()
+  size: number;
 
   constructor() { }
 

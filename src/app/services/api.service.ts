@@ -6,7 +6,7 @@ import {Value} from '../interfaces/value';
 
 import 'rxjs/add/operator/timeout';
 import {Product} from '../interfaces/product';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Injectable()
 export class ApiService {
@@ -89,13 +89,13 @@ export class ApiService {
       .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
   }
 
-  async getThumbImageUriFromProduct(product: Product): Promise<string> {
+  async getThumbImageUriFromProduct(product: Product): Promise<SafeUrl> {
     if (product && product.productOptions && product.productOptions[0].images) {
       return await this.getImageFileByImageId(product.productOptions[0].images[0].id).take(1).toPromise().then(async src => {
         return await this.domSanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(src));
       });
     } else {
-      return '';
+      return '' as SafeUrl;
     }
   }
 }

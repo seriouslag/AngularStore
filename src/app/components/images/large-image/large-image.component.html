@@ -1,6 +1,8 @@
-<img class="defaultImg" *ngIf="imageSrc; else noImage" [src]="imageSrc"
-     [ngClass]="{'small': size==0, 'med': size==1, 'large': size==2}">
+<div class="img-container">
+  <img class="defaultImg" *ngIf="imageSrc; else noImage" [src]="imageSrc"
+       [ngClass]="{'small': size==0, 'med': size==1, 'large': size==2}">
 
-<ng-template #noImage>
-  Failed to load Image
-</ng-template>
+  <ng-template #noImage>
+    Failed to load Image
+  </ng-template>
+</div>

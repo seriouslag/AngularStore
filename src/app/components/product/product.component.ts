@@ -20,6 +20,9 @@ export class ProductComponent implements OnInit, OnChanges {
   @Input()
   product: Product;
 
+  @Input()
+  size: number;
+
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
