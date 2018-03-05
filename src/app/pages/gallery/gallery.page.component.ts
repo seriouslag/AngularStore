@@ -15,10 +15,11 @@ import {Product} from '../../interfaces/product';
 export class GalleryPageComponent implements OnInit, OnDestroy {
 
   imageSubscription: Subscription;
-  gallery: Product[];
+  gallery: Product[] = [];
   size = 0;
 
   public isLoading$ = new BehaviorSubject<boolean>(false);
+  public isFailed$ = new BehaviorSubject<boolean>(false);
 
   private mediaSubscription: Subscription;
 
@@ -31,7 +32,11 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
     this.isLoading$.next(true);
     this.gallerySubscription = this.apiService.getProducts().subscribe(gallery => {
       this.isLoading$.next(false);
+      this.isFailed$.next(false);
       this.gallery = gallery;
+    }, () => {
+      this.isLoading$.next(false);
+      this.isFailed$.next(true);
     });
     this.mediaSubscription = this.media.subscribe(() => {
       this.checkMobile();

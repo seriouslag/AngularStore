@@ -1,5 +1,6 @@
 <mat-card fxLayout="row">
-  <app-gallery [productOption]="product?.productOptions[0]"></app-gallery>
+  <!--<app-gallery [productOption]="product?.productOptions[0]"></app-gallery>-->
+  <app-large-image [imageSrc]="imageSrc"></app-large-image>
 
   <div fxLayout="column" class="productInformation">
     <div>{{product?.name}}</div>

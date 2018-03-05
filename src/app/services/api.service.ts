@@ -6,6 +6,7 @@ import {Value} from '../interfaces/value';
 
 import 'rxjs/add/operator/timeout';
 import {Product} from '../interfaces/product';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
 export class ApiService {
@@ -17,7 +18,9 @@ export class ApiService {
   private adminCheckUrl = '/api/user/admin';
   private authCheckUrl = '/api/user/auth';
 
-  constructor(private httpClient: HttpClient) {
+  private urlCreator = window.URL;
+
+  constructor(private httpClient: HttpClient, private domSanitizer: DomSanitizer) {
   }
 
   private static getAuthHeaders(token: string): HttpHeaders {
@@ -41,7 +44,7 @@ export class ApiService {
 
   getProducts(token?: string): Observable<Product[]> {
     return this.httpClient
-      .get<Product[]>(this.productUrl, { headers: ((token != null) ? ApiService.getAuthHeaders(token) : ApiService.getHeaders()) });
+      .get<Product[]>(this.productUrl, {headers: ((token != null) ? ApiService.getAuthHeaders(token) : ApiService.getHeaders())});
   }
 
   getProductById(id: number): Observable<Product> {
@@ -86,4 +89,13 @@ export class ApiService {
       .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
   }
 
+  async getThumbImageUriFromProduct(product: Product): Promise<string> {
+    if (product && product.productOptions && product.productOptions[0].images) {
+      return await this.getImageFileByImageId(product.productOptions[0].images[0].id).take(1).toPromise().then(async src => {
+        return await this.domSanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(src));
+      });
+    } else {
+      return '';
+    }
+  }
 }
