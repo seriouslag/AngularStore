@@ -1,0 +1,18 @@
+{
+  "short_name": "AngularStore",
+  "name": "AngularStore: Code Louisville Class Project",
+  "start_url": "/",
+
+  "theme_color": "#7FFF00",
+  "background_color": "#FAFCCC",
+
+  "display": "standalone",
+
+  "icons": [
+    {
+      "src": "/assets/images/favicon/favicon-512.png",
+      "size": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -42,6 +42,8 @@ import { AddProductProductListComponent } from './components/admin/add-product-p
 import { EditProductOptionDialogComponent } from './components/admin/dialogs/edit-product/edit-product-dialog.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductPageComponent } from './pages/product.page/product.page.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { LargeImageComponent } from './components/images/large-image/large-image.component';
 
 
 @NgModule({
@@ -70,6 +72,7 @@ import { ProductPageComponent } from './pages/product.page/product.page.componen
     EditProductOptionDialogComponent,
     ProductComponent,
     ProductPageComponent,
+    LargeImageComponent,
 
   ],
   imports: [
@@ -85,6 +88,10 @@ import { ProductPageComponent } from './pages/product.page/product.page.componen
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
   exports: [FormsModule, ReactiveFormsModule],
   providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
