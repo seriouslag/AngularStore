@@ -1,4 +1,4 @@
-<div class="img-container">
+<div class="img-container" fxLayout="column" fxLayoutAlign="center center" fxFlexFill="">
   <img class="defaultImg" *ngIf="imageSrc; else noImage" [src]="imageSrc"
        [ngClass]="{'small': size==0, 'med': size==1, 'large': size==2}">
 
