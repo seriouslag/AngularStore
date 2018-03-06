@@ -1,4 +1,4 @@
-<mat-accordion [multi]="false" fxLayoutAlign="center start" fxLayoutWrap="row" fxLayout="row" fxLayoutGap="10px">
+<mat-accordion [multi]="false" fxLayoutAlign="center start" fxLayoutWrap="row" fxLayout="row" fxLayoutGap="">
     <mat-expansion-panel>
       <mat-expansion-panel-header>Edit Product</mat-expansion-panel-header>
 
@@ -15,6 +15,7 @@
         <button mat-button (click)="reset()">Reset</button>
       </form>
 
+      <mat-divider></mat-divider>
       <app-add-product-product-list *ngIf="products" [products]="listProducts"></app-add-product-product-list>
 
       <!--
@@ -48,13 +49,6 @@
       <!--
       TODO Think about making the rows clickable/selectable https://stackblitz.com/edit/angular-tt9tdw?file=app/table-basic-example.html https://github.com/angular/material2/issues/9692
       -->
-      <mat-card-actions>
-        <div fxLayout="row">
-          <button mat-button type="submit" matTooltip="Back to Login" [matTooltipShowDelay]="500">
-            Edit Product
-          </button>
-        </div>
-      </mat-card-actions>
     </mat-expansion-panel>
 
     <mat-expansion-panel>

@@ -49,15 +49,12 @@ export class AdminPageComponent implements OnInit, AfterViewInit {
     this.productSearchForm.patchValue('');
   }
 
+  /*
+  TODO add ability to search by productOptions name
+   */
+
   filterProducts(term: string): Product[] {
     return this.products.getValue().filter(product =>
-      product.name.toLowerCase().indexOf(term.toLowerCase()) >= 0).sort();
-  }
-
-
-  // Can remove
-  // Also remove from html
-  selectRow(row) {
-    console.log(row);
+      (product.name.toLowerCase().indexOf(term.toLowerCase()) >= 0)).sort();
   }
 }
