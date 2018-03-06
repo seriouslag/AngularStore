@@ -44,6 +44,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductPageComponent } from './pages/product.page/product.page.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LargeImageComponent } from './components/images/large-image/large-image.component';
+import { firebase } from '../firebase/firebase';
 
 
 @NgModule({
@@ -84,7 +85,7 @@ import { LargeImageComponent } from './components/images/large-image/large-image
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    AngularFireModule.initializeApp(environment.firebase),  // imports firebase/app needed for everything
+    AngularFireModule.initializeApp(firebase.firebase),  // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
