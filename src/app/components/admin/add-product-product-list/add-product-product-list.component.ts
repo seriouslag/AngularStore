@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import {DialogService} from '../../../services/dialog.service';
 import {MatDialogRef} from '@angular/material';
 import {EditProductOptionDialogComponent} from '../dialogs/edit-product/edit-product-dialog.component';
+import {ApiService} from '../../../services/api.service';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-add-product-product-list',
@@ -21,7 +23,7 @@ export class AddProductProductListComponent implements OnInit {
 
   private editProductDialog: MatDialogRef<EditProductOptionDialogComponent>;
 
-  constructor(private dialogService: DialogService) { }
+  constructor(private dialogService: DialogService, private apiService: ApiService, private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -30,7 +32,9 @@ export class AddProductProductListComponent implements OnInit {
     this.dialogService.closeDialogs();
     this.editProductDialog = this.dialogService.openDialog(EditProductOptionDialogComponent, {
       data: {
-        product: product
+        product: product,
+        apiService: this.apiService,
+        authService: this.authService
       }
     });
   }

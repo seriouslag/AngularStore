@@ -1,19 +1,28 @@
 <div fxLayout="row" fxLayoutGap="10px" fxFlexFill >
-  <div fxLayout="row" class="productsList addMaterialMargin">
+  <div fxLayout="row" class="productsList addMaterialMargin" fxFlexAlign="stretch center">
     <span>Id</span><span>Name</span><span>Created Date</span><span>Last Modified</span><span>Is Visible</span>
   </div>
 </div>
+<mat-divider></mat-divider>
+<div *ngFor="let product of products | async" fxLayout="column">
 
-<div *ngFor="let product of products | async; let i = index;" fxLayout="column">
-
-   <button mat-button fxFlexFill (click)="open(product)">
-     <span fxLayout="row" fxLayoutGap="10px" class="productsList">
-       <span>{{product.id}}</span>
-       <span>{{product.name}}</span>
-       <span>{{product.createdDate}}</span>
-       <span>{{product.lastModified}}</span>
-       <span>{{product.isVisible}}</span>
+   <div fxLayout="row">
+     <button mat-button  (click)="open(product)">
+       <span fxLayout="row" fxLayoutGap="10px" class="productsList">
+         <span>{{product.id}}</span>
+         <span>{{product.name}}</span>
+         <span>{{product.createdDate}}</span>
+         <span>{{product.lastModified}}</span>
+         <span>{{product.isVisible}}</span>
+       </span>
+     </button>
+     <span *ngFor="let productOption of product.productOptions">
+       <button mat-button>
+         {{productOption.name}}
+       </button>
      </span>
-   </button>
+   </div>
+
+
 
 </div>

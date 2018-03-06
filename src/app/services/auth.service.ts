@@ -15,6 +15,7 @@ export class AuthService {
   public isAuth$ = new BehaviorSubject<boolean>(false);
   public isAdmin$ = new BehaviorSubject<boolean>(false);
   public user$ = new BehaviorSubject<firebase.User>(null);
+  public userToken$ = new BehaviorSubject<string>('');
 
   user: Observable<firebase.User>;
   dbUser: Observable<any> = Observable.of({});
@@ -29,19 +30,33 @@ export class AuthService {
       this.user$.next(user);
       if (user != null && user.uid != null) {
         this.dbUser = this.firebaseService.getFromDb('users/' + user.uid).valueChanges().take(1) as Observable<User>;
+        this.updateUserStatus();
 
-        // Get Admin status from backend
-        await this.apiService.getIsAdminStatus(await user.getIdToken()).subscribe(status => {
-          this.isAdmin$.next(status);
-        });
-
-        // Get Auth status from backend
-        await this.apiService.getIsAuthStatus(await user.getIdToken()).subscribe(status => {
-          this.isAuth$.next(status);
-        });
       } else {
         this.dbUser = Observable.of(null);
       }
+    });
+  }
+
+  public async updateUserStatus(): Promise<boolean> {
+    if (this.user$.getValue() == null) {
+      await this.user.toPromise().then(user => {
+        this.user$.next(user);
+      });
+    }
+    // Get User Id Token
+    await this.userToken$.next((await this.user$.getValue().getIdToken()));
+
+    // Get Auth status from backend
+    await this.apiService.getIsAuthStatus(this.userToken$.getValue()).subscribe(status => {
+      this.isAuth$.next(status);
+    });
+
+    // Get Admin status from backend
+    return await this.apiService.getIsAdminStatus(this.userToken$.getValue()).toPromise().then(status => {
+      this.isAdmin$.next(status);
+
+      return this.isAdmin$.getValue();
     });
   }
 

@@ -3,9 +3,9 @@
     <mat-card-title><div>Edit Product</div></mat-card-title>
     <mat-card-subtitle>{{(product?.name)}}</mat-card-subtitle>
     <div fxFlex></div>
-    <button mat-icon-button (click)="deleteProduct(product.id)"><mat-icon>delete</mat-icon></button>
+    <button mat-icon-button (click)="deleteProduct()"><mat-icon>delete</mat-icon></button>
   </mat-card-header>
-  <form fxLayout="column" fxLayoutGap="10px" [formGroup]="productForm" (submit)="updateProduct(productForm.getRawValue())"  novalidate>
+  <form fxLayout="column" fxLayoutGap="10px" [formGroup]="productForm" (submit)="updateProduct()">
     <mat-input-container>
       <input matInput placeholder="Id" type="text" formControlName="id" required autocomplete="id">
       <mat-hint
@@ -25,6 +25,9 @@
       </mat-hint>
     </mat-input-container>
     <mat-input-container>
+      <textarea matInput placeholder="Product Description" type="text" formControlName="productDescription" matTextareaAutosize matAutosizeMinRows="1"></textarea>
+    </mat-input-container>
+    <mat-input-container>
       <input matInput placeholder="Created Date" type="date" formControlName="createdDate" required autocomplete="createdDate">
       <mat-hint
         *ngIf="productForm.controls['createdDate'].hasError('required') && productForm.controls['createdDate'].touched"
@@ -40,7 +43,7 @@
         </mat-hint>
       </mat-input-container>
 
-      <mat-checkbox formControlName="isVisible">Disabled</mat-checkbox>
+      <mat-checkbox formControlName="isVisible">Visible</mat-checkbox>
     </div>
     <div fxLayout="row" class="required">
       <div fxFlex></div>
@@ -53,7 +56,7 @@
           Cancel
         </button>
         <button mat-button matTooltip="Update" [matTooltipShowDelay]="500" type="submit"
-                [disabled]="productForm.invalid">Create
+                [disabled]="(!isChanged()) || productForm.invalid">Update
         </button>
       </div>
     </mat-action-row>

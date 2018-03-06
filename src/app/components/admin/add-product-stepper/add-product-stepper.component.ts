@@ -12,7 +12,7 @@ import {MatExpansionPanel} from '@angular/material';
 })
 export class AddProductStepperComponent implements OnInit {
 
-  postProductFormGroup = new FormGroup({
+  postProductStepFormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(1)]),
     productDescription: new FormControl(null, [])
   });
@@ -31,15 +31,6 @@ export class AddProductStepperComponent implements OnInit {
   ngOnInit() {
   }
 
-  async postProduct(): Promise<object> {
-    const product = <Product>{
-      name: this.postProductFormGroup.controls['name'].value,
-      productDescription: this.postProductFormGroup.controls['productDescription'].value
-    };
-
-    return this.apiService.postProduct(await this.authService.user$.getValue().getIdToken(), product).toPromise();
-  }
-
   get productOptionsFormArray(): FormArray {
     return this.postProductOptionFormGroup.get('productOptions') as FormArray;
   }
@@ -47,7 +38,7 @@ export class AddProductStepperComponent implements OnInit {
   addProductOption(): void {
     this.productOptionsFormArray.push(new FormGroup({
       // Set the default value of the name to not throw an error for missing a value
-      name: new FormControl(this.postProductFormGroup.controls['name'].value + ' ' + this.productOptionsFormArray.length, [Validators.required, Validators.minLength(1)]),
+      name: new FormControl(this.postProductStepFormGroup.controls['name'].value + ' ' + this.productOptionsFormArray.length, [Validators.required, Validators.minLength(1)]),
       price: new FormControl(null, [Validators.required, Validators.minLength(1)]),
       productOptionDescription: new FormControl(null, [])
     }));
@@ -62,6 +53,9 @@ export class AddProductStepperComponent implements OnInit {
     for (const productOption of this.productOptionsFormArray.controls) {
       if (productOption.status === 'INVALID') {
         this.toOpen[i] = true;
+
+        // Idea is yelling at me that .open does not exist on MatExpansionPanel
+        // but it inherits it from cdk accordion item
         panels[i].open();
       } else {
         this.toOpen[i] = false;
@@ -79,5 +73,17 @@ export class AddProductStepperComponent implements OnInit {
     //  panels[i].open();
     }
     */
+  }
+
+  public postProduct() {
+    console.log('posting');
+    const product = {
+      name: this.postProductStepFormGroup.controls['name'].value,
+      productDescription: this.postProductStepFormGroup.controls['productDescription'].value,
+      productOptions: this.postProductOptionFormGroup.controls['productOptions'].value
+    } as Product;
+    this.apiService.postProduct(product, this.authService.userToken$.getValue()).subscribe(a => {
+      console.log(a, 'added product');
+  });
   }
 }

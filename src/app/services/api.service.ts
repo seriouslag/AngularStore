@@ -83,10 +83,19 @@ export class ApiService {
       .get<boolean>(this.authCheckUrl, {headers: ApiService.getAuthHeaders(token)});
   }
 
-  postProduct(token: string, product: Product): Observable<Object> {
-    console.log('here2', token);
+  postProduct(product: Product, token: string): Observable<Object> {
+      return this.httpClient
+        .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
+  }
+
+  deleteProduct(id: number, token: string) {
     return this.httpClient
-      .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
+      .delete(this.productUrl + id, {headers: ApiService.getAuthHeaders(token)});
+  }
+
+  updateProduct(id: number, product: Product, token: string) {
+    return this.httpClient
+      .put(this.productUrl + id, product, {headers: ApiService.getAuthHeaders(token)});
   }
 
   async getThumbImageUriFromProduct(product: Product): Promise<SafeUrl> {
