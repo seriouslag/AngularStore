@@ -1,9 +1,9 @@
 <div fxLayoutAlign="center center">
-  <div *ngIf="!(isLoading$ | async) && gallery.length === 0">
+  <div *ngIf="!(isLoading$ | async) && !(isFailed$ | async) && gallery.length === 0">
     The gallery is currently empty.
   </div>
   <mat-spinner *ngIf="(isLoading$ | async) && !(isFailed$ | async)"></mat-spinner>
-  <div class="items-container" fxLayout="row" fxLayoutAlign="center start" fxLayoutWrap>
+  <div class="items-container" fxLayout="row" fxLayoutGap="" fxLayoutAlign="center start" fxLayoutWrap>
       <!--<app-gallery *ngFor="let product of gallery" [size]="size" [product]="product"></app-gallery>-->
       <app-product class="item"  *ngFor="let product of gallery" [size]="size" [product]="product"></app-product>
   </div>
