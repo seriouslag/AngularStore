@@ -1,5 +1,5 @@
 import {
-  MatButtonModule,
+  MatButtonModule, MatDividerModule,
   MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
@@ -37,7 +37,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule,
     MatIconModule, MatInputModule, MatMenuModule, MatOptionModule, MatProgressBarModule, MatProgressSpinnerModule,
     MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
-    MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule,
+    MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule, MatDividerModule,
     BrowserAnimationsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatAutocompleteModule
   ],
   exports: [
@@ -45,7 +45,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule,
     MatIconModule, MatInputModule, MatMenuModule, MatOptionModule, MatProgressBarModule, MatProgressSpinnerModule,
     MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
-    MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule,
+    MatSnackBarModule, MatStepperModule, MatTabsModule, MatTooltipModule, MatToolbarModule, MatDividerModule,
     BrowserAnimationsModule, MatTableModule, MatPaginatorModule, MatSortModule, MatAutocompleteModule
   ]
 })
