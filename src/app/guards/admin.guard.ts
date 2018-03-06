@@ -11,10 +11,10 @@ export class AdminGuard implements  CanActivate {
   constructor(private apiService: ApiService, private authService: AuthService) {
   }
 
-  canActivate(): boolean {
+  async canActivate(): Promise<boolean> {
 
     // old way
-    /* // Get user
+     // Get user
     return await this.authService.user.first().toPromise()
       .then(async user => {
         if (user != null && user !== {}) {
@@ -25,7 +25,8 @@ export class AdminGuard implements  CanActivate {
               return await this.apiService.getIsAdminStatus(token).toPromise();
             });
         }
-     });*/
-    return this.authService.isAuth$.getValue();
+     });
+    /*console.log('inAuth');
+    return this.authService.updateUserStatus();*/
   }
 }
