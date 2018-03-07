@@ -45,6 +45,8 @@ import { ProductPageComponent } from './pages/product.page/product.page.componen
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { LargeImageComponent } from './components/images/large-image/large-image.component';
 import { firebase } from '../firebase/firebase';
+import {ToastService} from './services/toast.service';
+import {AdminService} from './services/admin.service';
 
 
 @NgModule({
@@ -95,7 +97,7 @@ import { firebase } from '../firebase/firebase';
     })
   ],
   exports: [FormsModule, ReactiveFormsModule],
-  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard],
+  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard, ToastService, AdminService],
   entryComponents: [ProductOptionDialogComponent, LoginDialogComponent, AccountDialogComponent, EditProductOptionDialogComponent],
   bootstrap: [AppComponent]
 })
