@@ -6,6 +6,8 @@ import {MatDialogRef} from '@angular/material';
 import {EditProductOptionDialogComponent} from '../dialogs/edit-product/edit-product-dialog.component';
 import {ApiService} from '../../../services/api.service';
 import {AuthService} from '../../../services/auth.service';
+import {ToastService} from '../../../services/toast.service';
+import {AdminService} from '../../../services/admin.service';
 
 @Component({
   selector: 'app-add-product-product-list',
@@ -23,7 +25,8 @@ export class AddProductProductListComponent implements OnInit {
 
   private editProductDialog: MatDialogRef<EditProductOptionDialogComponent>;
 
-  constructor(private dialogService: DialogService, private apiService: ApiService, private authService: AuthService) { }
+  constructor(private dialogService: DialogService, private apiService: ApiService, private authService: AuthService,
+              private toastService: ToastService, private adminService: AdminService) { }
 
   ngOnInit() {
   }
@@ -34,7 +37,9 @@ export class AddProductProductListComponent implements OnInit {
       data: {
         product: product,
         apiService: this.apiService,
-        authService: this.authService
+        authService: this.authService,
+        toastService: this.toastService,
+        adminService: this.adminService
       }
     });
   }

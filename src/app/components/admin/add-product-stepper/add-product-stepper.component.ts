@@ -4,6 +4,8 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../services/api.service';
 import {AuthService} from '../../../services/auth.service';
 import {MatExpansionPanel} from '@angular/material';
+import {ToastService} from '../../../services/toast.service';
+import {AdminService} from '../../../services/admin.service';
 
 @Component({
   selector: 'app-add-product-stepper',
@@ -24,15 +26,26 @@ export class AddProductStepperComponent implements OnInit {
   // Can remove the toOpen system. [expanded] only fires onview load
   toOpen: boolean[] = [];
 
+  step = 0;
+
   @ViewChildren(MatExpansionPanel) panels: QueryList<MatExpansionPanel>;
 
-  constructor(private apiService: ApiService, private authService: AuthService) { }
+  constructor(private apiService: ApiService, private authService: AuthService, private toastService: ToastService,
+              private adminService: AdminService) { }
 
   ngOnInit() {
   }
 
   get productOptionsFormArray(): FormArray {
     return this.postProductOptionFormGroup.get('productOptions') as FormArray;
+  }
+
+  nextStep(): void {
+    this.step++;
+  }
+
+  previousStep(): void {
+    this.step--;
   }
 
   addProductOption(): void {
@@ -45,23 +58,23 @@ export class AddProductStepperComponent implements OnInit {
     this.toOpen.push(true);
   }
 
-  public openErrorPanels(): void {
+  public openErrorPanels(): boolean {
     const panels = this.panels.toArray();
     let i = 0;
-
+    let panelsOpen = false;
     // Open any panels with errors to expose them
     for (const productOption of this.productOptionsFormArray.controls) {
       if (productOption.status === 'INVALID') {
         this.toOpen[i] = true;
+        panelsOpen = true;
 
-        // Idea is yelling at me that .open does not exist on MatExpansionPanel
-        // but it inherits it from cdk accordion item
         panels[i].open();
       } else {
         this.toOpen[i] = false;
       }
       i++;
     }
+    return panelsOpen;
   }
 
   // Maybe remove. I do not like this system
@@ -75,15 +88,27 @@ export class AddProductStepperComponent implements OnInit {
     */
   }
 
+  public clearForms() {
+    this.postProductStepFormGroup.reset();
+    this.productOptionsFormArray.controls.splice(0, this.productOptionsFormArray.controls.length);
+    this.postProductOptionFormGroup.reset();
+    this.step = 0;
+  }
+
   public postProduct() {
-    console.log('posting');
     const product = {
       name: this.postProductStepFormGroup.controls['name'].value,
       productDescription: this.postProductStepFormGroup.controls['productDescription'].value,
       productOptions: this.postProductOptionFormGroup.controls['productOptions'].value
     } as Product;
-    this.apiService.postProduct(product, this.authService.userToken$.getValue()).subscribe(a => {
-      console.log(a, 'added product');
-  });
+    this.apiService.postProduct(product, this.authService.userToken$.getValue()).subscribe(res => {
+      if (res.ok) {
+        this.toastService.open('Successfully added ' + product.name);
+        this.clearForms();
+        this.adminService.updateProducts();
+      } else {
+        this.toastService.open('Failed to add ' + product.name);
+      }
+    });
   }
 }

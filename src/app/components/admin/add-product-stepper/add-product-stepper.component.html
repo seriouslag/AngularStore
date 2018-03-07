@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="true" #stepper="matVerticalStepper">
+<mat-vertical-stepper [linear]="true" #stepper="matVerticalStepper" [selectedIndex]="step">
     <mat-step [stepControl]="postProductStepFormGroup">
       <form [formGroup]="postProductStepFormGroup" fxLayout="column" >
         <ng-template matStepLabel>Product Information: </ng-template>
@@ -17,7 +17,7 @@
           <textarea matInput placeholder="Product Description" type="text" formControlName="productDescription" matTextareaAutosize matAutosizeMinRows="1"></textarea>
         </mat-input-container>
         <mat-action-row>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext (click)="postProductStepFormGroup.invalid ? null : nextStep()" >Next</button>
         </mat-action-row>
       </form>
     </mat-step>
@@ -59,8 +59,8 @@
         <span>Add a Product Option <mat-icon>add_circle_outline</mat-icon></span>
       </button>
       <mat-action-row>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext (click)="openErrorPanels()">Next</button>
+        <button mat-button matStepperPrevious (click)="previousStep()">Back</button>
+        <button mat-button matStepperNext (click)="openErrorPanels() ? null : nextStep()">Next</button>
       </mat-action-row>
     </mat-step>
 
@@ -68,7 +68,7 @@
       <ng-template matStepLabel>Submit</ng-template>
 
       <mat-action-row>
-        <button mat-button matStepperPrevious >Back</button>
+        <button mat-button matStepperPrevious (click)="previousStep()">Back</button>
         <button mat-button type="button" (click)="postProduct()">Submit</button>
 
       </mat-action-row>

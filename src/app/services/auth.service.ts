@@ -9,13 +9,22 @@ import {User} from '../interfaces/user';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ApiService} from './api.service';
 
+import { skipWhile } from 'rxjs/operators';
+
 @Injectable()
 export class AuthService {
 
-  public isAuth$ = new BehaviorSubject<boolean>(false);
-  public isAdmin$ = new BehaviorSubject<boolean>(false);
+  public isAuth$ = new BehaviorSubject<boolean>(null);
+
   public user$ = new BehaviorSubject<firebase.User>(null);
   public userToken$ = new BehaviorSubject<string>('');
+
+  public isAdmin$ = new BehaviorSubject<boolean>(null);
+  /*public _admin: Observable<boolean> = this.isAdmin$.pipe(
+    skipWhile((boolean) => {
+      return boolean === null;
+    })
+  );*/
 
   user: Observable<firebase.User>;
   dbUser: Observable<any> = Observable.of({});
@@ -26,38 +35,67 @@ export class AuthService {
     this.user = auth.authState;
     auth.auth.setPersistence('local');
 
-    this.userSubscription = this.user.subscribe(async (user: firebase.User) => {
-      this.user$.next(user);
-      if (user != null && user.uid != null) {
-        this.dbUser = this.firebaseService.getFromDb('users/' + user.uid).valueChanges().take(1) as Observable<User>;
-        this.updateUserStatus();
 
-      } else {
+
+    this.userSubscription = this.user.subscribe((user: firebase.User) => {
+      this.user$.next(user);
+      if (!(user != null && user.uid != null)) {
         this.dbUser = Observable.of(null);
+      } else {
+        this.dbUser = this.firebaseService.getFromDb('users/' + user.uid).valueChanges().take(1) as Observable<User>;
+        this.updateUserStatus().subscribe(isAdmin => {
+          this.isAdmin$.next(isAdmin);
+        });
       }
     });
+    /*this.updateUserStatus().then(a => {
+      console.log(a);
+    });*/
   }
 
-  public async updateUserStatus(): Promise<boolean> {
-    if (this.user$.getValue() == null) {
-      await this.user.toPromise().then(user => {
-        this.user$.next(user);
+  /*
+    TODO reenable and remove async/promise/return observable and set admin guard to take observable
+   */
+
+  public updateUserStatus(): Observable<boolean> {
+    return this.user.flatMap(user => {
+      this.user$.next(user);
+      if (!(user != null && user.uid != null)) {
+        this.dbUser = Observable.of(null);
+        return Observable.of(null);
+      } else {
+        this.dbUser = this.firebaseService.getFromDb('users/' + user.uid).valueChanges().take(1) as Observable<User>;
+        return Observable.fromPromise(this.user$.getValue().getIdToken()).flatMap(token => {
+          this.userToken$.next(token);
+          this.apiService.getIsAuthStatus(this.userToken$.getValue()).take(1).subscribe(isAuth => {
+            this.isAuth$.next(isAuth);
+          });
+          return this.apiService.getIsAdminStatus(this.userToken$.getValue());
+        });
+      }
+    });
+      /*.toPromise().then(status => {
+        console.log('status', status);
+        this.isAdmin$.next(status[0]);
+        this.isAuth$.next(status[1]);
+        this.loading = true;
+        return this.isAdmin$.getValue();
       });
-    }
+
     // Get User Id Token
-    await this.userToken$.next((await this.user$.getValue().getIdToken()));
+     await this.userToken$.next((await this.user$.getValue().getIdToken()));
 
     // Get Auth status from backend
-    await this.apiService.getIsAuthStatus(this.userToken$.getValue()).subscribe(status => {
-      this.isAuth$.next(status);
-    });
+     await this.apiService.getIsAuthStatus(this.userToken$.getValue()).subscribe(status => {
+       this.isAuth$.next(status);
+     });
 
     // Get Admin status from backend
-    return await this.apiService.getIsAdminStatus(this.userToken$.getValue()).toPromise().then(status => {
+     return await this.apiService.getIsAdminStatus(this.userToken$.getValue()).toPromise().then(status => {
       this.isAdmin$.next(status);
 
       return this.isAdmin$.getValue();
-    });
+     });*/
   }
 
   public loginWithEmailProvider(email: string, password: string): Promise<any> {

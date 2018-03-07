@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Image} from '../interfaces/image';
 import {Value} from '../interfaces/value';
@@ -83,19 +83,19 @@ export class ApiService {
       .get<boolean>(this.authCheckUrl, {headers: ApiService.getAuthHeaders(token)});
   }
 
-  postProduct(product: Product, token: string): Observable<Object> {
+  postProduct(product: Product, token: string): Observable<HttpResponse<Response>> {
       return this.httpClient
-        .post(this.productUrl, product, {headers: ApiService.getAuthHeaders(token)});
+        .post<Response>(this.productUrl, product, {observe: 'response', headers: ApiService.getAuthHeaders(token)});
   }
 
-  deleteProduct(id: number, token: string) {
+  deleteProduct(id: number, token: string): Observable<HttpResponse<Response>> {
     return this.httpClient
-      .delete(this.productUrl + id, {headers: ApiService.getAuthHeaders(token)});
+      .delete<Response>(this.productUrl + id, {observe: 'response', headers: ApiService.getAuthHeaders(token)});
   }
 
-  updateProduct(id: number, product: Product, token: string) {
+  updateProduct(id: number, product: Product, token: string): Observable<HttpResponse<Response>> {
     return this.httpClient
-      .put(this.productUrl + id, product, {headers: ApiService.getAuthHeaders(token)});
+      .put<Response>(this.productUrl + id, product, {observe: 'response', headers: ApiService.getAuthHeaders(token)});
   }
 
   async getThumbImageUriFromProduct(product: Product): Promise<SafeUrl> {
