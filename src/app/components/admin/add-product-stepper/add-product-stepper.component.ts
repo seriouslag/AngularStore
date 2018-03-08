@@ -6,6 +6,7 @@ import {AuthService} from '../../../services/auth.service';
 import {MatExpansionPanel} from '@angular/material';
 import {ToastService} from '../../../services/toast.service';
 import {AdminService} from '../../../services/admin.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-add-product-stepper',
@@ -107,8 +108,11 @@ export class AddProductStepperComponent implements OnInit {
         this.clearForms();
         this.adminService.updateProducts();
       } else {
-        this.toastService.open('Failed to add ' + product.name);
+        this.toastService.open('Failed to add ' + product.name + '. Unknown');
       }
-    });
+      }, ((httpError: HttpErrorResponse) => {
+        this.toastService.open('Failed to add ' + product.name + '. ' + httpError.statusText);
+      })
+    );
   }
 }

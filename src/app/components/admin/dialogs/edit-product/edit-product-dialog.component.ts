@@ -6,6 +6,7 @@ import {ApiService} from '../../../../services/api.service';
 import {AuthService} from '../../../../services/auth.service';
 import {ToastService} from '../../../../services/toast.service';
 import {AdminService} from '../../../../services/admin.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-product-dialog',
@@ -101,6 +102,8 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
       // should add prompt before deletion
       this.adminService.updateProducts();
       this.dialogRef.close();
+    }, (httpError: HttpErrorResponse) => {
+      this.toastService.open('Failed to update ' + this.product.name + '. ' + httpError.statusText);
     });
   }
 
@@ -113,13 +116,15 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
     } as Product;
     this.apiService.updateProduct(this.product.id, product, this.authService.userToken$.getValue()).subscribe(res => {
       if (res.ok) {
-        this.toastService.open('Succesfully updated ' + this.product.name);
+        this.toastService.open('Successfully updated ' + this.product.name);
       } else {
         // add more checks
-        this.toastService.open('Failed to update ' + this.product.name);
+        this.toastService.open('Failed to update ' + this.product.name + '. Unknown');
       }
       this.adminService.updateProducts();
       this.dialogRef.close();
+    }, (httpError: HttpErrorResponse) => {
+      this.toastService.open('Failed to update ' + this.product.name + '. ' + httpError.statusText);
     });
   }
 }
