@@ -1,0 +1,10 @@
+
+<mat-card fxLayout="column">
+  <div class="imageContainer" fxLayoutAlign="center center">
+    <img [src]="(imageSrc | async)|| ''"  />
+  </div>
+  <mat-card-content>
+    <button mat-button routerLink="/product/{{product.id}}">{{product.name}}</button>
+    <div>{{product.productDescription}}</div>
+  </mat-card-content>
+</mat-card>

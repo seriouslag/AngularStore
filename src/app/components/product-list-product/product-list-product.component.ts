@@ -1,15 +1,19 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, HostBinding, Input, OnChanges, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
+import {SafeUrl} from '@angular/platform-browser';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ApiService} from '../../services/api.service';
-import {SafeUrl} from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-product-list-product',
+  templateUrl: './product-list-product.component.html',
+  styleUrls: ['./product-list-product.component.css']
 })
-export class ProductComponent implements OnInit, OnChanges {
+export class ProductListProductComponent implements OnInit, OnChanges {
+  // @HostBinding('attr.class') cssClass = 'size';
+
+  @Input()
+  product: Product;
 
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isFailed$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -17,11 +21,6 @@ export class ProductComponent implements OnInit, OnChanges {
   lowestPrice = -1;
   imageSrc: SafeUrl;
 
-  @Input()
-  product: Product;
-
-  @Input()
-  size: number;
 
   constructor(private apiService: ApiService) { }
 
@@ -29,18 +28,7 @@ export class ProductComponent implements OnInit, OnChanges {
     if (this.product) {
       this.getLowestPrice();
       this.isLoading$.next(true);
-      this.apiService.getThumbImageUriFromProduct(this.product).subscribe(imageSrc => {
-        this.imageSrc = imageSrc;
-      });
-      /* .then(imageSrc => {
-        this.isLoading$.next(false);
-        this.imageSrc = imageSrc;
-        if (this.imageSrc) {
-          this.isFailed$.next(false);
-        } else {
-          this.isFailed$.next(true);
-        }
-      });*/
+      this.imageSrc = this.apiService.getThumbImageUriFromProduct(this.product);
     }
   }
 
@@ -49,15 +37,6 @@ export class ProductComponent implements OnInit, OnChanges {
       this.isLoading$.next(true);
       this.getLowestPrice();
       this.imageSrc = this.apiService.getThumbImageUriFromProduct(this.product);
-      /* .then(imageSrc => {
-        this.isLoading$.next(false);
-        this.imageSrc = imageSrc;
-        if (this.imageSrc) {
-          this.isFailed$.next(false);
-        } else {
-          this.isFailed$.next(true);
-        }
-      });*/
     } else {
       this.isLoading$.next(false);
       this.isFailed$.next(true);

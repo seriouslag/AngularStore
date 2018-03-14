@@ -10,3 +10,8 @@ mat-card {
 .description {
   max-width: 200px;
 }
+
+.imageContainer {
+  height: 220px;
+  max-width: 220px;
+}

@@ -5,3 +5,7 @@
 .addMaterialMargin {
   margin-left: 48px;
 }
+
+.panel {
+  max-height: 80%;
+}

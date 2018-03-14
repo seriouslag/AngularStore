@@ -40,7 +40,8 @@ export class AddProductProductListComponent implements OnInit {
         authService: this.authService,
         toastService: this.toastService,
         adminService: this.adminService
-      }
+      },
+      panelClass: 'panel'
     });
   }
 

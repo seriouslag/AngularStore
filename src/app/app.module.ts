@@ -47,6 +47,10 @@ import { LargeImageComponent } from './components/images/large-image/large-image
 import { firebase } from '../firebase/firebase';
 import {ToastService} from './services/toast.service';
 import {AdminService} from './services/admin.service';
+import {CartService} from './services/cart.service';
+import { DefaultPriceComponent } from './components/price/default-price/default-price.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductListProductComponent } from './components/product-list-product/product-list-product.component';
 
 
 @NgModule({
@@ -76,6 +80,9 @@ import {AdminService} from './services/admin.service';
     ProductComponent,
     ProductPageComponent,
     LargeImageComponent,
+    DefaultPriceComponent,
+    ProductListComponent,
+    ProductListProductComponent,
 
   ],
   imports: [
@@ -97,7 +104,7 @@ import {AdminService} from './services/admin.service';
     })
   ],
   exports: [FormsModule, ReactiveFormsModule],
-  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard, ToastService, AdminService],
+  providers: [AuthService, ApiService, DialogService, FirebaseService, StateService, AdminGuard, ToastService, AdminService, CartService],
   entryComponents: [ProductOptionDialogComponent, LoginDialogComponent, AccountDialogComponent, EditProductOptionDialogComponent],
   bootstrap: [AppComponent]
 })

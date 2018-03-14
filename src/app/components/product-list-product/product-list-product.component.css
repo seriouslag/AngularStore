@@ -1,0 +1,13 @@
+.imageContainer {
+  flex-grow: 1;
+}
+
+mat-card {
+  width: 100%;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+  align-self: center;
+}

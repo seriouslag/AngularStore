@@ -7,6 +7,7 @@ import {Value} from '../interfaces/value';
 import 'rxjs/add/operator/timeout';
 import {Product} from '../interfaces/product';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import 'rxjs/add/observable/race';
 
 @Injectable()
 export class ApiService {
@@ -52,16 +53,6 @@ export class ApiService {
       .get<Product>(this.productUrl + '/' + id, {headers: ApiService.getHeaders()});
   }
 
-  getImages(): Observable<Image[]> {
-    return this.httpClient
-      .get<Image[]>(this.imageUrl, {headers: ApiService.getHeaders()});
-  }
-
-  getImageById(id: number): Observable<Image> {
-    return this.httpClient
-      .get<Image>(this.imageUrl + id, {headers: ApiService.getHeaders()});
-  }
-
   getImageFileByImageId(imageID: number): Observable<Blob> {
     const options = {headers: ApiService.getImageHeaders(), responseType: 'blob' as 'blob'};
     return this.httpClient
@@ -98,13 +89,39 @@ export class ApiService {
       .put<Response>(this.productUrl + id, product, {observe: 'response', headers: ApiService.getAuthHeaders(token)});
   }
 
-  async getThumbImageUriFromProduct(product: Product): Promise<SafeUrl> {
-    if (product && product.productOptions && product.productOptions[0].images) {
-      return await this.getImageFileByImageId(product.productOptions[0].images[0].id).take(1).toPromise().then(async src => {
-        return await this.domSanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(src));
-      });
-    } else {
-      return '' as SafeUrl;
+
+
+
+
+
+  // Image
+
+  getThumbImageUriFromProduct(product: Product): Observable<SafeUrl> {
+    const bobArray: Observable<SafeUrl>[] = [];
+    for (const productOption of product.productOptions) {
+      for (const productImages of productOption.images) {
+        bobArray.push(this.getImageFileByImageId(productImages.id)
+          .map(img => this.domSanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(img))));
+      }
     }
+    if (bobArray.length) {
+      return Observable.race(bobArray);
+    }
+    return Observable.of('/assets/images/INF.png');
+  }
+
+  getImageUriFromImageId(id: number): Observable<SafeUrl> {
+    return this.getImageFileByImageId(id).map(img => this.domSanitizer.bypassSecurityTrustUrl(this.urlCreator.createObjectURL(img)));
+  }
+
+
+  getImages(): Observable<Image[]> {
+    return this.httpClient
+      .get<Image[]>(this.imageUrl, {headers: ApiService.getHeaders()});
+  }
+
+  getImageById(id: number): Observable<Image> {
+    return this.httpClient
+      .get<Image>(this.imageUrl + id, {headers: ApiService.getHeaders()});
   }
 }

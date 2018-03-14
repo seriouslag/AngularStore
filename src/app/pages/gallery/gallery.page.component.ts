@@ -7,6 +7,7 @@ import {ApiService} from '../../services/api.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Product} from '../../interfaces/product';
 
+
 @Component({
   selector: 'app-gallery-page',
   templateUrl: './gallery.page.component.html',
@@ -55,13 +56,23 @@ export class GalleryPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkMobile() {
+ /* private checkMobile() {
     if (this.media.isActive('xs')) {
       this.size = 0;
     } else if (this.media.isActive('sm')) {
       this.size = 1;
     } else {
       this.size = 2;
+    }
+  }*/
+
+  private checkMobile() {
+    if (this.media.isActive('xs')) {
+      this.size = 2;
+    } else if (this.media.isActive('sm')) {
+      this.size = 3;
+    } else {
+      this.size = 4;
     }
   }
 }

@@ -1,8 +1,5 @@
 <div class="img-container" fxLayout="column" fxLayoutAlign="center center" fxFlexFill="">
-  <img class="defaultImg" *ngIf="imageSrc; else noImage" [src]="imageSrc"
+  <img class="defaultImg" *ngIf="(isLoading$ | async) === false && img" [src]="img"
        [ngClass]="{'small': size==0, 'med': size==1, 'large': size==2}">
-
-  <ng-template #noImage>
-    Failed to load Image
-  </ng-template>
+    <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
 </div>

@@ -68,4 +68,8 @@ export class AdminPageComponent implements OnInit, OnDestroy {
     return this.products.getValue().filter(product =>
       (product.name.toLowerCase().indexOf((term ? term : '').toLowerCase()) >= 0)).sort();
   }
+
+  updateProducts(): void {
+    this.adminService.updateProducts();
+  }
 }

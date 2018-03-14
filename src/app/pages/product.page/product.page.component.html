@@ -1,3 +1,18 @@
-<app-product *ngIf="product" [product]="product"></app-product>
+<div *ngIf="product">
+  <span>{{product.name}}</span>
+  <div class="imageContainer">
+    <app-large-image [imageSrc]="selectedImage"></app-large-image>
+  </div>
+  <div>
+    {{product.productDescription}}
+  </div>
+
+  <mat-tab-group (selectedTabChange)="selectedTabChanged($event)" [selectedIndex]="selectedProductOption">
+    <mat-tab *ngFor="let productOptions of product.productOptions" [label]="productOptions.name">
+      {{productOptions.productOptionDescription}}
+    </mat-tab>
+  </mat-tab-group>
+
+</div>
 <div *ngIf="isFailed$.getValue()">This product either failed to load or does not exist.</div>
 <mat-spinner *ngIf="isLoading$.getValue()"></mat-spinner>

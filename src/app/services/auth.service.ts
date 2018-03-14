@@ -9,7 +9,6 @@ import {User} from '../interfaces/user';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {ApiService} from './api.service';
 
-import { skipWhile } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {

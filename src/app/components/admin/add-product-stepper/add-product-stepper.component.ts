@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Product} from '../../../interfaces/product';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../services/api.service';
@@ -27,8 +27,6 @@ export class AddProductStepperComponent implements OnInit {
   // Can remove the toOpen system. [expanded] only fires onview load
   toOpen: boolean[] = [];
 
-  step = 0;
-
   @ViewChildren(MatExpansionPanel) panels: QueryList<MatExpansionPanel>;
 
   constructor(private apiService: ApiService, private authService: AuthService, private toastService: ToastService,
@@ -39,14 +37,6 @@ export class AddProductStepperComponent implements OnInit {
 
   get productOptionsFormArray(): FormArray {
     return this.postProductOptionFormGroup.get('productOptions') as FormArray;
-  }
-
-  nextStep(): void {
-    this.step++;
-  }
-
-  previousStep(): void {
-    this.step--;
   }
 
   addProductOption(): void {
@@ -60,20 +50,24 @@ export class AddProductStepperComponent implements OnInit {
   }
 
   public openErrorPanels(): boolean {
-    const panels = this.panels.toArray();
-    let i = 0;
     let panelsOpen = false;
-    // Open any panels with errors to expose them
-    for (const productOption of this.productOptionsFormArray.controls) {
-      if (productOption.status === 'INVALID') {
-        this.toOpen[i] = true;
-        panelsOpen = true;
+    if (this.panels && this.panels.length) {
+      console.log(this.panels.toArray());
+      const panels = this.panels.toArray();
+      let i = 0;
 
-        panels[i].open();
-      } else {
-        this.toOpen[i] = false;
+      // Open any panels with errors to expose them
+      for (const productOption of this.productOptionsFormArray.controls) {
+        if (productOption.status === 'INVALID') {
+          this.toOpen[i] = true;
+          panelsOpen = true;
+
+          panels[i].open();
+        } else {
+          this.toOpen[i] = false;
+        }
+        i++;
       }
-      i++;
     }
     return panelsOpen;
   }
@@ -93,7 +87,6 @@ export class AddProductStepperComponent implements OnInit {
     this.postProductStepFormGroup.reset();
     this.productOptionsFormArray.controls.splice(0, this.productOptionsFormArray.controls.length);
     this.postProductOptionFormGroup.reset();
-    this.step = 0;
   }
 
   public postProduct() {

@@ -1,12 +1,12 @@
 <mat-card fxLayout="row" fxLayoutAlign="space-between stretch">
   <!--<app-gallery [productOption]="product?.productOptions[0]"></app-gallery>-->
-  <app-large-image [size]="size" [imageSrc]="imageSrc"></app-large-image>
+  <div class="imageContainer">
+    <app-large-image *ngIf="imageSrc" [size]="size" [imageSrc]="imageSrc"></app-large-image>
+  </div>
 
   <div fxLayout="column" class="productInformation">
-    <div>{{product?.name}}</div>
+    <button mat-button routerLink="/product/{{product.id}}">{{product?.name}}</button>
     <div class="description">{{product.productDescription}}</div>
-
-
   </div>
 
   <div fxLayout="column" fxLayoutAlign="space-between stretch">

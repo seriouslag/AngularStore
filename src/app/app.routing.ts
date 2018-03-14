@@ -15,6 +15,7 @@ export const routes: Routes = [
   {path: 'contact', component: ContactPageComponent},
   {path: 'admin', component: AdminPageComponent, canActivate: [AdminGuard]},
   {path: 'product/:productId', component: ProductPageComponent},
+  {path: 'product/:productId/:productOptionId', component: ProductPageComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: Four04PageComponent}
 ];
