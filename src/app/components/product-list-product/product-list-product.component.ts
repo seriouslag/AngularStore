@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Product} from '../../interfaces/product';
 import {SafeUrl} from '@angular/platform-browser';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';

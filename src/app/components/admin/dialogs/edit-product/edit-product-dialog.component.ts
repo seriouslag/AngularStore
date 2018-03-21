@@ -28,7 +28,7 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
     productDescription: new FormControl(null, []),
     createdDate: new FormControl({value: null, disabled: true}, []),
     lastModified: new FormControl({value: null, disabled: true}, []),
-    isVisible: new FormControl(null, []),
+    isActivated: new FormControl(null, []),
   });
 
   constructor(public dialogRef: MatDialogRef<EditProductOptionDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -77,7 +77,7 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
     this.productForm.controls['productDescription'].patchValue(this.product.productDescription);
     this.productForm.controls['createdDate'].patchValue(this.product.createdDate);
     this.productForm.controls['lastModified'].patchValue(this.product.lastModified);
-    this.productForm.controls['isVisible'].patchValue(this.product.isVisible);
+    this.productForm.controls['isActivated'].patchValue(this.product.isActivated);
   }
 
   public cancel(): void {
@@ -87,7 +87,7 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
   public isChanged(): boolean {
     return (this.productForm.controls['id'].value !== this.product.id || this.productForm.controls['name'].value !== this.product.name
       || this.productForm.controls['createdDate'].value !== this.product.createdDate || this.productForm.controls['productDescription'].value !== this.product.productDescription ||
-      this.productForm.controls['lastModified'].value !== this.product.lastModified ||  this.productForm.controls['isVisible'].value !== this.product.isVisible);
+      this.productForm.controls['lastModified'].value !== this.product.lastModified ||  this.productForm.controls['isActivated'].value !== this.product.isActivated);
 
   }
 
@@ -112,7 +112,7 @@ export class EditProductOptionDialogComponent implements OnInit, OnChanges {
       id: this.productForm.controls['id'].value,
       name: this.productForm.controls['name'].value,
       productDescription: this.productForm.controls['productDescription'].value,
-      isVisible: this.productForm.controls['isVisible'].value
+      isActivated: this.productForm.controls['isActivated'].value
     } as Product;
     this.apiService.updateProduct(this.product.id, product, this.authService.userToken$.getValue()).subscribe(res => {
       if (res.ok) {

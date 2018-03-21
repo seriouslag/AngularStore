@@ -19,11 +19,6 @@ export class AuthService {
   public userToken$ = new BehaviorSubject<string>('');
 
   public isAdmin$ = new BehaviorSubject<boolean>(null);
-  /*public _admin: Observable<boolean> = this.isAdmin$.pipe(
-    skipWhile((boolean) => {
-      return boolean === null;
-    })
-  );*/
 
   user: Observable<firebase.User>;
   dbUser: Observable<any> = Observable.of({});
@@ -33,8 +28,6 @@ export class AuthService {
   constructor(private auth: AngularFireAuth, private snackBar: MatSnackBar, private firebaseService: FirebaseService, private apiService: ApiService) {
     this.user = auth.authState;
     auth.auth.setPersistence('local');
-
-
 
     this.userSubscription = this.user.subscribe((user: firebase.User) => {
       this.user$.next(user);
@@ -47,14 +40,7 @@ export class AuthService {
         });
       }
     });
-    /*this.updateUserStatus().then(a => {
-      console.log(a);
-    });*/
   }
-
-  /*
-    TODO reenable and remove async/promise/return observable and set admin guard to take observable
-   */
 
   public updateUserStatus(): Observable<boolean> {
     return this.user.flatMap(user => {
@@ -73,28 +59,6 @@ export class AuthService {
         });
       }
     });
-      /*.toPromise().then(status => {
-        console.log('status', status);
-        this.isAdmin$.next(status[0]);
-        this.isAuth$.next(status[1]);
-        this.loading = true;
-        return this.isAdmin$.getValue();
-      });
-
-    // Get User Id Token
-     await this.userToken$.next((await this.user$.getValue().getIdToken()));
-
-    // Get Auth status from backend
-     await this.apiService.getIsAuthStatus(this.userToken$.getValue()).subscribe(status => {
-       this.isAuth$.next(status);
-     });
-
-    // Get Admin status from backend
-     return await this.apiService.getIsAdminStatus(this.userToken$.getValue()).toPromise().then(status => {
-      this.isAdmin$.next(status);
-
-      return this.isAdmin$.getValue();
-     });*/
   }
 
   public loginWithEmailProvider(email: string, password: string): Promise<any> {
@@ -110,8 +74,6 @@ export class AuthService {
         this.snackBar.open('Successfully logged in', 'OK', {duration: 1750});
       }
     }).catch((error: any) => {
-
-      // const errorCode = error.code;
       // Login Failed
 
       this.snackBar.open(error.message, 'OK', {
@@ -121,12 +83,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    /*this.userSubscription.unsubscribe();
-    this.user = Observable.of(null);
-    this.dbUser = Observable.of(null);*/
-
     this.auth.auth.signOut().then(() => {
-
       this.snackBar.open('Successfully logged out.', 'OK', {duration: 1750});
     }, () => {
       this.snackBar.open('Something went wrong :(', 'OK', {duration: 1750});
